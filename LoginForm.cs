@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp1_StkywControlPanelLight
+namespace StkywControlPanelLight
 {
     public partial class LoginForm : Form
     {
@@ -24,12 +24,19 @@ namespace WindowsFormsApp1_StkywControlPanelLight
         static EmployeeCurrentUsage loggedInUser = new EmployeeCurrentUsage();
         static Company loginCompany = new Company();
         static bool verified = false;
-        static string apiPathEcu = "https://localhost:7017/api/Employees/";
-        static string apiPathCompany = "https://localhost:7017/api/Companies/";
-        static string apiPathlogin = "https://localhost:7017/api/Login/";
+        static string apiPathEcu = "http://www.api.sorrytokeepyouwaiting.com/api/Employees/";//"https://localhost:7017/api/Employees/";
+        static string apiPathCompany = "http://www.api.sorrytokeepyouwaiting.com/api/Companies/";//"https://localhost:7017/api/Companies/";
+        static string apiPathlogin = "http://www.api.sorrytokeepyouwaiting.com/api/Login/";//"https://localhost:7017/api/Login/";
         public LoginForm()
         {
             InitializeComponent();
+            if (StkywControlPanelLight.Properties.Settings.Default.settingUsername != null)
+            {
+                textBoxUsername.Text = StkywControlPanelLight.Properties.Settings.Default.settingUsername;
+                textBoxPassword.Text = StkywControlPanelLight.Properties.Settings.Default.settingPassword;
+                textBoxCompany.Text = StkywControlPanelLight.Properties.Settings.Default.settingCompany;
+                checkBoxRememberMe.Checked = true;
+            }
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)
@@ -38,6 +45,15 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             string password = textBoxPassword.Text;
             string company = textBoxCompany.Text;
             Form f = this;
+            
+            if (checkBoxRememberMe.Checked == true)
+            {
+                StkywControlPanelLight.Properties.Settings.Default.settingUsername = username;
+                StkywControlPanelLight.Properties.Settings.Default.settingPassword = password;
+                StkywControlPanelLight.Properties.Settings.Default.settingCompany = company;
+                StkywControlPanelLight.Properties.Settings.Default.Save();
+            }
+
             PerformLogin(sender, e, username, password, company, f);
 
             //Test

@@ -1,5 +1,5 @@
 ﻿
-namespace WindowsFormsApp1_StkywControlPanelLight
+namespace StkywControlPanelLight
 {
     partial class FormStkywControlPanelLightV2
     {
@@ -49,14 +49,17 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             this.timerFlashing = new System.Windows.Forms.Timer(this.components);
             this.timerOthersAlert = new System.Windows.Forms.Timer(this.components);
             this.labelAlertOther = new System.Windows.Forms.Label();
+            this.timerAutoDelay = new System.Windows.Forms.Timer(this.components);
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonTimeslotMerge3
             // 
-            this.buttonTimeslotMerge3.Location = new System.Drawing.Point(159, 41);
+            this.buttonTimeslotMerge3.Location = new System.Drawing.Point(212, 50);
+            this.buttonTimeslotMerge3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonTimeslotMerge3.Name = "buttonTimeslotMerge3";
-            this.buttonTimeslotMerge3.Size = new System.Drawing.Size(38, 23);
+            this.buttonTimeslotMerge3.Size = new System.Drawing.Size(51, 28);
             this.buttonTimeslotMerge3.TabIndex = 7;
             this.buttonTimeslotMerge3.Text = ">> 3";
             this.buttonTimeslotMerge3.UseVisualStyleBackColor = true;
@@ -64,9 +67,10 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             // 
             // buttonTimeslotMerge2
             // 
-            this.buttonTimeslotMerge2.Location = new System.Drawing.Point(115, 41);
+            this.buttonTimeslotMerge2.Location = new System.Drawing.Point(153, 50);
+            this.buttonTimeslotMerge2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonTimeslotMerge2.Name = "buttonTimeslotMerge2";
-            this.buttonTimeslotMerge2.Size = new System.Drawing.Size(38, 23);
+            this.buttonTimeslotMerge2.Size = new System.Drawing.Size(51, 28);
             this.buttonTimeslotMerge2.TabIndex = 6;
             this.buttonTimeslotMerge2.Text = ">> 2";
             this.buttonTimeslotMerge2.UseVisualStyleBackColor = true;
@@ -74,9 +78,10 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             // 
             // buttonTimeslotMerge4
             // 
-            this.buttonTimeslotMerge4.Location = new System.Drawing.Point(203, 41);
+            this.buttonTimeslotMerge4.Location = new System.Drawing.Point(271, 50);
+            this.buttonTimeslotMerge4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonTimeslotMerge4.Name = "buttonTimeslotMerge4";
-            this.buttonTimeslotMerge4.Size = new System.Drawing.Size(38, 23);
+            this.buttonTimeslotMerge4.Size = new System.Drawing.Size(51, 28);
             this.buttonTimeslotMerge4.TabIndex = 8;
             this.buttonTimeslotMerge4.Text = ">> 4";
             this.buttonTimeslotMerge4.UseVisualStyleBackColor = true;
@@ -88,9 +93,10 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             this.buttonAwayPresent.FlatAppearance.BorderColor = System.Drawing.Color.Red;
             this.buttonAwayPresent.FlatAppearance.BorderSize = 2;
             this.buttonAwayPresent.ForeColor = System.Drawing.Color.DarkRed;
-            this.buttonAwayPresent.Location = new System.Drawing.Point(291, 41);
+            this.buttonAwayPresent.Location = new System.Drawing.Point(388, 50);
+            this.buttonAwayPresent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonAwayPresent.Name = "buttonAwayPresent";
-            this.buttonAwayPresent.Size = new System.Drawing.Size(38, 23);
+            this.buttonAwayPresent.Size = new System.Drawing.Size(51, 28);
             this.buttonAwayPresent.TabIndex = 10;
             this.buttonAwayPresent.Text = "Væk";
             this.buttonAwayPresent.UseVisualStyleBackColor = false;
@@ -98,9 +104,10 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             // 
             // buttonTimeslotMerge5
             // 
-            this.buttonTimeslotMerge5.Location = new System.Drawing.Point(247, 41);
+            this.buttonTimeslotMerge5.Location = new System.Drawing.Point(329, 50);
+            this.buttonTimeslotMerge5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonTimeslotMerge5.Name = "buttonTimeslotMerge5";
-            this.buttonTimeslotMerge5.Size = new System.Drawing.Size(38, 23);
+            this.buttonTimeslotMerge5.Size = new System.Drawing.Size(51, 28);
             this.buttonTimeslotMerge5.TabIndex = 9;
             this.buttonTimeslotMerge5.Text = ">> 5";
             this.buttonTimeslotMerge5.UseVisualStyleBackColor = true;
@@ -109,9 +116,10 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             // buttonTimeslotResetToZero
             // 
             this.buttonTimeslotResetToZero.BackColor = System.Drawing.Color.DarkGray;
-            this.buttonTimeslotResetToZero.Location = new System.Drawing.Point(291, 12);
+            this.buttonTimeslotResetToZero.Location = new System.Drawing.Point(388, 15);
+            this.buttonTimeslotResetToZero.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonTimeslotResetToZero.Name = "buttonTimeslotResetToZero";
-            this.buttonTimeslotResetToZero.Size = new System.Drawing.Size(38, 23);
+            this.buttonTimeslotResetToZero.Size = new System.Drawing.Size(51, 28);
             this.buttonTimeslotResetToZero.TabIndex = 5;
             this.buttonTimeslotResetToZero.Text = "0";
             this.buttonTimeslotResetToZero.UseVisualStyleBackColor = false;
@@ -120,9 +128,10 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             // buttonTimeslotNext
             // 
             this.buttonTimeslotNext.BackColor = System.Drawing.Color.MediumSpringGreen;
-            this.buttonTimeslotNext.Location = new System.Drawing.Point(115, 12);
+            this.buttonTimeslotNext.Location = new System.Drawing.Point(153, 15);
+            this.buttonTimeslotNext.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonTimeslotNext.Name = "buttonTimeslotNext";
-            this.buttonTimeslotNext.Size = new System.Drawing.Size(38, 23);
+            this.buttonTimeslotNext.Size = new System.Drawing.Size(51, 28);
             this.buttonTimeslotNext.TabIndex = 1;
             this.buttonTimeslotNext.Text = ">>";
             this.buttonTimeslotNext.UseVisualStyleBackColor = false;
@@ -131,9 +140,10 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             // buttonTimeslotNextBreak
             // 
             this.buttonTimeslotNextBreak.BackColor = System.Drawing.Color.Khaki;
-            this.buttonTimeslotNextBreak.Location = new System.Drawing.Point(247, 12);
+            this.buttonTimeslotNextBreak.Location = new System.Drawing.Point(329, 15);
+            this.buttonTimeslotNextBreak.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonTimeslotNextBreak.Name = "buttonTimeslotNextBreak";
-            this.buttonTimeslotNextBreak.Size = new System.Drawing.Size(38, 23);
+            this.buttonTimeslotNextBreak.Size = new System.Drawing.Size(51, 28);
             this.buttonTimeslotNextBreak.TabIndex = 4;
             this.buttonTimeslotNextBreak.Text = "| |";
             this.buttonTimeslotNextBreak.UseVisualStyleBackColor = false;
@@ -142,9 +152,10 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             // buttonTimeslotBestGuess
             // 
             this.buttonTimeslotBestGuess.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.buttonTimeslotBestGuess.Location = new System.Drawing.Point(203, 12);
+            this.buttonTimeslotBestGuess.Location = new System.Drawing.Point(271, 15);
+            this.buttonTimeslotBestGuess.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonTimeslotBestGuess.Name = "buttonTimeslotBestGuess";
-            this.buttonTimeslotBestGuess.Size = new System.Drawing.Size(38, 23);
+            this.buttonTimeslotBestGuess.Size = new System.Drawing.Size(51, 28);
             this.buttonTimeslotBestGuess.TabIndex = 3;
             this.buttonTimeslotBestGuess.Text = "|>";
             this.buttonTimeslotBestGuess.UseVisualStyleBackColor = false;
@@ -153,9 +164,10 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             // buttonTimeslotPrevious
             // 
             this.buttonTimeslotPrevious.BackColor = System.Drawing.Color.LightCoral;
-            this.buttonTimeslotPrevious.Location = new System.Drawing.Point(159, 12);
+            this.buttonTimeslotPrevious.Location = new System.Drawing.Point(212, 15);
+            this.buttonTimeslotPrevious.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonTimeslotPrevious.Name = "buttonTimeslotPrevious";
-            this.buttonTimeslotPrevious.Size = new System.Drawing.Size(38, 23);
+            this.buttonTimeslotPrevious.Size = new System.Drawing.Size(51, 28);
             this.buttonTimeslotPrevious.TabIndex = 2;
             this.buttonTimeslotPrevious.Text = "<<";
             this.buttonTimeslotPrevious.UseVisualStyleBackColor = false;
@@ -165,9 +177,10 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             // 
             this.labelTimeslotType.AutoSize = true;
             this.labelTimeslotType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTimeslotType.Location = new System.Drawing.Point(16, 99);
+            this.labelTimeslotType.Location = new System.Drawing.Point(21, 122);
+            this.labelTimeslotType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelTimeslotType.Name = "labelTimeslotType";
-            this.labelTimeslotType.Size = new System.Drawing.Size(92, 16);
+            this.labelTimeslotType.Size = new System.Drawing.Size(109, 20);
             this.labelTimeslotType.TabIndex = 0;
             this.labelTimeslotType.Text = "TimeslotType";
             // 
@@ -175,9 +188,10 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             // 
             this.labelSlutTid.AutoSize = true;
             this.labelSlutTid.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSlutTid.Location = new System.Drawing.Point(16, 74);
+            this.labelSlutTid.Location = new System.Drawing.Point(21, 91);
+            this.labelSlutTid.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelSlutTid.Name = "labelSlutTid";
-            this.labelSlutTid.Size = new System.Drawing.Size(44, 16);
+            this.labelSlutTid.Size = new System.Drawing.Size(56, 20);
             this.labelSlutTid.TabIndex = 0;
             this.labelSlutTid.Text = "Sluttid";
             // 
@@ -185,9 +199,10 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             // 
             this.labelStartTid.AutoSize = true;
             this.labelStartTid.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelStartTid.Location = new System.Drawing.Point(16, 49);
+            this.labelStartTid.Location = new System.Drawing.Point(21, 60);
+            this.labelStartTid.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelStartTid.Name = "labelStartTid";
-            this.labelStartTid.Size = new System.Drawing.Size(49, 16);
+            this.labelStartTid.Size = new System.Drawing.Size(63, 20);
             this.labelStartTid.TabIndex = 0;
             this.labelStartTid.Text = "Starttid";
             // 
@@ -195,9 +210,10 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             // 
             this.labelCurrentDelay.AutoSize = true;
             this.labelCurrentDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCurrentDelay.Location = new System.Drawing.Point(12, 9);
+            this.labelCurrentDelay.Location = new System.Drawing.Point(16, 11);
+            this.labelCurrentDelay.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelCurrentDelay.Name = "labelCurrentDelay";
-            this.labelCurrentDelay.Size = new System.Drawing.Size(62, 24);
+            this.labelCurrentDelay.Size = new System.Drawing.Size(79, 29);
             this.labelCurrentDelay.TabIndex = 0;
             this.labelCurrentDelay.Text = "Delay";
             // 
@@ -220,18 +236,20 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             "50 minutter",
             "55 minutter",
             "60 minutter"});
-            this.comboBox1.Location = new System.Drawing.Point(115, 70);
+            this.comboBox1.Location = new System.Drawing.Point(153, 86);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(126, 21);
+            this.comboBox1.Size = new System.Drawing.Size(167, 24);
             this.comboBox1.TabIndex = 11;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::WindowsFormsApp1_StkywControlPanelLight.Properties.Resources.Sorrytokeepyouwaiting_circle_Red_50px;
-            this.pictureBox1.Location = new System.Drawing.Point(279, 70);
+            this.pictureBox1.Image = global::StkywControlPanelLight.Properties.Resources.Sorrytokeepyouwaiting_circle_Red_50px;
+            this.pictureBox1.Location = new System.Drawing.Point(372, 86);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
+            this.pictureBox1.Size = new System.Drawing.Size(67, 62);
             this.pictureBox1.TabIndex = 45;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
@@ -248,21 +266,38 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             // 
             // labelAlertOther
             // 
-            this.labelAlertOther.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelAlertOther.Dock = System.Windows.Forms.DockStyle.Left;
             this.labelAlertOther.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelAlertOther.Location = new System.Drawing.Point(0, 0);
+            this.labelAlertOther.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelAlertOther.Name = "labelAlertOther";
-            this.labelAlertOther.Size = new System.Drawing.Size(339, 132);
+            this.labelAlertOther.Size = new System.Drawing.Size(1, 162);
             this.labelAlertOther.TabIndex = 46;
             this.labelAlertOther.Text = "labelAlertOther";
             this.labelAlertOther.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelAlertOther.Visible = false;
             // 
+            // timerAutoDelay
+            // 
+            this.timerAutoDelay.Interval = 60000;
+            this.timerAutoDelay.Tick += new System.EventHandler(this.timerAutoDelay_Tick);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(388, 105);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(29, 28);
+            this.button1.TabIndex = 47;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // FormStkywControlPanelLightV2
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(339, 132);
+            this.ClientSize = new System.Drawing.Size(452, 162);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.labelAlertOther);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.comboBox1);
@@ -280,6 +315,7 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             this.Controls.Add(this.labelSlutTid);
             this.Controls.Add(this.labelStartTid);
             this.Controls.Add(this.labelCurrentDelay);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FormStkywControlPanelLightV2";
             this.Text = "STKYW Control Panel";
             this.TopMost = true;
@@ -310,5 +346,7 @@ namespace WindowsFormsApp1_StkywControlPanelLight
         private System.Windows.Forms.Timer timerFlashing;
         private System.Windows.Forms.Timer timerOthersAlert;
         private System.Windows.Forms.Label labelAlertOther;
+        private System.Windows.Forms.Timer timerAutoDelay;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp1_StkywControlPanelLight
+namespace StkywControlPanelLight
 {
     public partial class FormStkywControlPanelLightV2 : Form
     {
@@ -26,15 +26,15 @@ namespace WindowsFormsApp1_StkywControlPanelLight
         static List<vw_EmployeeLogin> allEmployees = new List<vw_EmployeeLogin>();
         static List<EmployeeCurrentUsage> ecuList = new List<EmployeeCurrentUsage>();
         static List<LatestRollingWeekSchedule_New> lrwsList = new List<LatestRollingWeekSchedule_New>();
-        static string apiPathSchedule = "https://localhost:7017/api/schedule/";
-        static string apiPathEmployee = "https://localhost:7017/api/employees/";
-        static string apiPathlogin = "https://localhost:7017/api/Login/";
-        static string apiPathRollingWeek = "https://localhost:7017/api/updRollingWeek";
+        static string apiPathSchedule = "http://www.api.sorrytokeepyouwaiting.com/api/schedule/";//"https://localhost:7017/api/schedule/";
+        static string apiPathEmployee = "http://www.api.sorrytokeepyouwaiting.com/api/employees/";//"https://localhost:7017/api/employees/";
+        static string apiPathlogin = "http://www.api.sorrytokeepyouwaiting.com/api/Login/";//"https://localhost:7017/api/Login/";
+        static string apiPathRollingWeek = "http://www.api.sorrytokeepyouwaiting.com/api/updRollingWeek/";//"https://localhost:7017/api/updRollingWeek";
         EmployeeCurrentUsage user = new EmployeeCurrentUsage();
         public FormStkywControlPanelLightV2(int var1, string var2, int var3)
         {
             Cursor.Current = Cursors.WaitCursor;
-            this.Icon = WindowsFormsApp1_StkywControlPanelLight.Properties.Resources.icon;
+            this.Icon = StkywControlPanelLight.Properties.Resources.icon;
             userId = var1;
             userName = var2;
             companyID = var3;
@@ -74,6 +74,8 @@ namespace WindowsFormsApp1_StkywControlPanelLight
 
             InitializeComponent();
             Cursor.Current = Cursors.Default;
+            button1.SendToBack();
+            timerAutoDelay.Start();
         }
         static async Task PrepareVariables(int employeeID, string weekday, EmployeeCurrentUsage user)
         {
@@ -640,6 +642,7 @@ namespace WindowsFormsApp1_StkywControlPanelLight
                 {
                     Schedule actSchedule = activeTimeslots[i];
                     string apiPathActSch = apiPathSchedule + actSchedule.ScheduleID;
+                    actSchedule.Active = false;
                     UpdateSchedule(actSchedule, apiPathActSch);
                 }
 
@@ -931,6 +934,35 @@ namespace WindowsFormsApp1_StkywControlPanelLight
         private void FormStkywControlPanelLightV2_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
+        }
+        private void timerAutoDelay_Tick(object sender, EventArgs e)
+        {
+            IEnumerable<Schedule> query = schedules.Where(s => s.Active == true);
+            List<Schedule> activeTimeslots = new List<Schedule>();
+            foreach (Schedule queryItem in query)
+            {
+                activeTimeslots.Add(queryItem);
+            }
+            for (int i = 0; i < activeTimeslots.Count; i++)
+            {
+                if (i == activeTimeslots.Count-1)
+                {
+                    Schedule actSchedule = activeTimeslots[i];
+                    user.DelayInMinutes = CalculateDelay(actSchedule);
+
+                    string apiPathUserFinal = apiPathEmployee + user.ID;
+                    user.LastActive = DateTime.Now;
+                    user.ModifiedDate = DateTime.Now;
+                    UpdateEmployee(user, apiPathUserFinal);
+
+                    DisplayValues(actSchedule, user);
+                    break;
+                }
+            }
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            pictureBox1_Click(sender, e);
         }
     }
 }

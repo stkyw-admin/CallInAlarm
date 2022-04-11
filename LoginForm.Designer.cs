@@ -1,5 +1,5 @@
 ﻿
-namespace WindowsFormsApp1_StkywControlPanelLight
+namespace StkywControlPanelLight
 {
     partial class LoginForm
     {
@@ -37,6 +37,7 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             this.label3 = new System.Windows.Forms.Label();
             this.buttonLogin = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.checkBoxRememberMe = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -91,10 +92,10 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             // buttonLogin
             // 
             this.buttonLogin.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonLogin.Location = new System.Drawing.Point(13, 96);
+            this.buttonLogin.Location = new System.Drawing.Point(13, 116);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(85, 23);
-            this.buttonLogin.TabIndex = 4;
+            this.buttonLogin.TabIndex = 5;
             this.buttonLogin.Text = "Login";
             this.buttonLogin.UseVisualStyleBackColor = true;
             this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
@@ -102,13 +103,24 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(106, 96);
+            this.buttonCancel.Location = new System.Drawing.Point(106, 116);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(85, 23);
-            this.buttonCancel.TabIndex = 5;
+            this.buttonCancel.TabIndex = 6;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            // 
+            // checkBoxRememberMe
+            // 
+            this.checkBoxRememberMe.AutoSize = true;
+            this.checkBoxRememberMe.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBoxRememberMe.Location = new System.Drawing.Point(12, 90);
+            this.checkBoxRememberMe.Name = "checkBoxRememberMe";
+            this.checkBoxRememberMe.Size = new System.Drawing.Size(132, 17);
+            this.checkBoxRememberMe.TabIndex = 4;
+            this.checkBoxRememberMe.Text = "Husk mine oplysninger";
+            this.checkBoxRememberMe.UseVisualStyleBackColor = true;
             // 
             // LoginForm
             // 
@@ -116,7 +128,8 @@ namespace WindowsFormsApp1_StkywControlPanelLight
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(200, 131);
+            this.ClientSize = new System.Drawing.Size(200, 151);
+            this.Controls.Add(this.checkBoxRememberMe);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonLogin);
             this.Controls.Add(this.textBoxCompany);
@@ -143,5 +156,6 @@ namespace WindowsFormsApp1_StkywControlPanelLight
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button buttonLogin;
         private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.CheckBox checkBoxRememberMe;
     }
 }
