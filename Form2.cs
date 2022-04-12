@@ -76,6 +76,8 @@ namespace StkywControlPanelLight
             Cursor.Current = Cursors.Default;
             button1.SendToBack();
             timerAutoDelay.Start();
+            labelAlertOther.Dock = DockStyle.Fill;
+            StkywControlPanelLight.Properties.Settings.Default.settingInitialDelay = 0;
         }
         static async Task PrepareVariables(int employeeID, string weekday, EmployeeCurrentUsage user)
         {
@@ -178,8 +180,8 @@ namespace StkywControlPanelLight
             double hours = Convert.ToDouble(schedule.StartTime.ToString().Substring(0, 2));
             double minutes = Convert.ToDouble(schedule.StartTime.ToString().Substring(3, 2));
             DateTime tsSt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Convert.ToInt32(hours), Convert.ToInt32(minutes), 0);
-
-            if ((curDateTime.CompareTo(tsSt) < 0) || (schedule.TsType == "Break"))
+            
+            if ((curDateTime.CompareTo(tsSt) <= 0) || (schedule.TsType == "Break"))
             {
                 delay = 0;
             }
@@ -188,7 +190,28 @@ namespace StkywControlPanelLight
                 System.TimeSpan diff1 = (curDateTime.Subtract(tsSt));
                 delay = diff1.TotalMinutes;
             }
-            delayInt = Convert.ToInt32(delay);
+            delayInt = Convert.ToInt32(Math.Floor(delay));
+            return delayInt;
+        }
+        public int CalculateDelayAutoIncrease(Schedule schedule)
+        {
+            int delayInt;
+            double delay;
+
+            DateTime curDateTime = new DateTime();
+            curDateTime = DateTime.Now;
+
+            double hours = Convert.ToDouble(schedule.EndTime.ToString().Substring(0, 2));
+            double minutes = Convert.ToDouble(schedule.EndTime.ToString().Substring(3, 2));
+            DateTime tsSt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Convert.ToInt32(hours), Convert.ToInt32(minutes), 0);
+            tsSt = tsSt.AddMinutes(StkywControlPanelLight.Properties.Settings.Default.settingInitialDelay);
+            delay = StkywControlPanelLight.Properties.Settings.Default.settingInitialDelay;
+            if (curDateTime.CompareTo(tsSt) > 0)
+            {
+                System.TimeSpan diff1 = (curDateTime.Subtract(tsSt));
+                delay = StkywControlPanelLight.Properties.Settings.Default.settingInitialDelay + diff1.TotalMinutes; 
+            }
+            delayInt = Convert.ToInt32(Math.Floor(delay));
             return delayInt;
         }
         private void timerFlashing_Tick(object sender, EventArgs e)
@@ -324,17 +347,17 @@ namespace StkywControlPanelLight
             if (buttonAwayPresent.BackColor.Name == "PaleGreen")
             {
                 buttonAwayPresent.BackColor = Color.DarkRed;
-                buttonAwayPresent.ForeColor = Color.PaleGreen;
-                buttonAwayPresent.Text = "Her";
+                buttonAwayPresent.ForeColor = Color.Black;
+                buttonAwayPresent.Text = "Væk";
                 user.Away = false;
             }
             else if (buttonAwayPresent.BackColor.Name == "DarkRed")
             {
                 buttonAwayPresent.BackColor = Color.PaleGreen;
-                buttonAwayPresent.ForeColor = Color.DarkRed;
-                buttonAwayPresent.Text = "Væk";
+                buttonAwayPresent.ForeColor = Color.White;
+                buttonAwayPresent.Text = "Her";
                 user.Away = true;
-                user.DelayInMinutes = 0;
+                //user.DelayInMinutes = 0;
             }
             string apiPathUserFinal = apiPathEmployee + user.ID;
             user.LastActive = DateTime.Now;
@@ -442,6 +465,7 @@ namespace StkywControlPanelLight
                 UpdateEmployee(user, apiPathUserFinal);
 
                 DisplayValues(schedule, user);
+                StkywControlPanelLight.Properties.Settings.Default.settingInitialDelay = (int)user.DelayInMinutes;
             }
         }
         private void buttonTimeslotPrevious_Click(object sender, EventArgs e)
@@ -539,6 +563,7 @@ namespace StkywControlPanelLight
                 UpdateEmployee(user, apiPathUserFinal);
 
                 DisplayValues(schedule, user);
+                StkywControlPanelLight.Properties.Settings.Default.settingInitialDelay = (int)user.DelayInMinutes;
             }
         }
         private void buttonTimeslotBestGuess_Click(object sender, EventArgs e)
@@ -593,6 +618,7 @@ namespace StkywControlPanelLight
                 UpdateEmployee(user, apiPathUserFinal);
 
                 DisplayValues(schedule, user);
+                StkywControlPanelLight.Properties.Settings.Default.settingInitialDelay = (int)user.DelayInMinutes;
             }
         }
         private void buttonTimeslotNextBreak_Click(object sender, EventArgs e)
@@ -657,6 +683,7 @@ namespace StkywControlPanelLight
                 UpdateEmployee(user, apiPathUserFinal);
 
                 DisplayValues(schedule, user);
+                StkywControlPanelLight.Properties.Settings.Default.settingInitialDelay = (int)user.DelayInMinutes;
             }
         }
         private void buttonTimeslotResetToZero_Click(object sender, EventArgs e)
@@ -675,6 +702,7 @@ namespace StkywControlPanelLight
             UpdateEmployee(user, apiPathUserFinal);
 
             labelCurrentDelay.Text = user.DelayInMinutes.ToString();
+            StkywControlPanelLight.Properties.Settings.Default.settingInitialDelay = (int)user.DelayInMinutes;
         }
         private void buttonTimeslotMerge2_Click(object sender, EventArgs e)
         {
@@ -806,6 +834,7 @@ namespace StkywControlPanelLight
                 labelSlutTid.Text = lastSchedule.EndTime.ToString();
                 labelTimeslotType.Text = firstSchedule.TsType;
                 labelCurrentDelay.Text = user.DelayInMinutes.ToString();
+                StkywControlPanelLight.Properties.Settings.Default.settingInitialDelay = (int)user.DelayInMinutes;
             }
         }
         private void DisplayValues(Schedule schedule, EmployeeCurrentUsage user)
@@ -838,6 +867,7 @@ namespace StkywControlPanelLight
             user.LastActive = DateTime.Now;
             user.ModifiedDate = DateTime.Now;
             UpdateEmployee(user, apiPathUserFinal);
+            StkywControlPanelLight.Properties.Settings.Default.settingInitialDelay = (int)user.DelayInMinutes;
         }
         private void pictureBox1_Click(object sender, EventArgs e)
         {
@@ -948,7 +978,7 @@ namespace StkywControlPanelLight
                 if (i == activeTimeslots.Count-1)
                 {
                     Schedule actSchedule = activeTimeslots[i];
-                    user.DelayInMinutes = CalculateDelay(actSchedule);
+                    user.DelayInMinutes = CalculateDelayAutoIncrease(actSchedule);
 
                     string apiPathUserFinal = apiPathEmployee + user.ID;
                     user.LastActive = DateTime.Now;
