@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace StkywControlPanelLight
         static string apiPathlogin = "http://www.api.sorrytokeepyouwaiting.com/api/Login/";//"https://localhost:7017/api/Login/";
         static string apiPathRollingWeek = "http://www.api.sorrytokeepyouwaiting.com/api/updRollingWeek/";//"https://localhost:7017/api/updRollingWeek";
         EmployeeCurrentUsage user = new EmployeeCurrentUsage();
+        Stopwatch sw = new Stopwatch();
         public FormStkywControlPanelLightV2(int var1, string var2, int var3)
         {
             Cursor.Current = Cursors.WaitCursor;
@@ -76,8 +78,10 @@ namespace StkywControlPanelLight
             Cursor.Current = Cursors.Default;
             button1.SendToBack();
             timerAutoDelay.Start();
+            timerOthersAlert.Start();
             labelAlertOther.Dock = DockStyle.Fill;
             StkywControlPanelLight.Properties.Settings.Default.settingInitialDelay = 0;
+            sw = Stopwatch.StartNew();
         }
         static async Task PrepareVariables(int employeeID, string weekday, EmployeeCurrentUsage user)
         {
@@ -127,6 +131,12 @@ namespace StkywControlPanelLight
             if (maxWeekRoll < nextWeek)
             {
                 nextWeek = 1;
+            }
+
+            //Hvis man har skrevet et ugetal i login-formen, så overskriver den vores udregninger.
+            if (StkywControlPanelLight.Properties.Settings.Default.settingLoginWeek > 0)
+            {
+                nextWeek = StkywControlPanelLight.Properties.Settings.Default.settingLoginWeek;
             }
 
             for (int i = 0; i < allSchedules.Count; i++)
@@ -223,9 +233,18 @@ namespace StkywControlPanelLight
         }
         private void timerOthersAlert_Tick(object sender, EventArgs e)
         {
-            performAlertCheck(companyID, timerFlashing, labelAlertOther);
+            performAlertCheck(companyID, labelAlertOther, user, timerFlashing);
+            if (timerFlashing.Enabled == false)
+            {
+                this.BackColor = SystemColors.Control;
+            }
+            if (sw.ElapsedMilliseconds < 120000)
+            {
+                timerAutoDelay.Enabled = true;
+                timerAutoDelay.Start();
+            }
         }
-        static async Task performAlertCheck(int companyID, Timer timer, Label label)
+        static async Task performAlertCheck(int companyID, Label label, EmployeeCurrentUsage user, Timer timer)
         {
             allEmployees = await GetEmployeeList(apiPathlogin);
             ecuList = await GetECUList(apiPathEmployee);
@@ -237,7 +256,8 @@ namespace StkywControlPanelLight
             {
                 CompanyEmployees.Add(queryItem);
             }
-            IEnumerable<EmployeeCurrentUsage> ecuQuery = ecuList.Where(s => s.CompanyID == companyID);
+            
+            IEnumerable<EmployeeCurrentUsage> ecuQuery = ecuList.Where(s => s.CompanyID == companyID && s.ID != user.ID);
             List<EmployeeCurrentUsage> OnlyCollegues = new List<EmployeeCurrentUsage>();
             foreach (EmployeeCurrentUsage qi in ecuQuery)
             {
@@ -261,7 +281,6 @@ namespace StkywControlPanelLight
                         alertUser = CompanyEmployees[i];
                     }
                 }
-                
                 timer.Start();
                 label.Visible = true;
                 label.Text = alertUser.Name + " har brug for hjælp!";
@@ -347,16 +366,24 @@ namespace StkywControlPanelLight
             if (buttonAwayPresent.BackColor.Name == "PaleGreen")
             {
                 buttonAwayPresent.BackColor = Color.DarkRed;
-                buttonAwayPresent.ForeColor = Color.Black;
+                buttonAwayPresent.ForeColor = Color.White;
                 buttonAwayPresent.Text = "Væk";
-                user.Away = false;
+                user.Away = true;
+                if (timerAutoDelay.Enabled == true)
+                {
+                    timerAutoDelay.Stop();
+                }
             }
             else if (buttonAwayPresent.BackColor.Name == "DarkRed")
             {
                 buttonAwayPresent.BackColor = Color.PaleGreen;
-                buttonAwayPresent.ForeColor = Color.White;
+                buttonAwayPresent.ForeColor = Color.Black;
                 buttonAwayPresent.Text = "Her";
-                user.Away = true;
+                user.Away = false;
+                if (timerAutoDelay.Enabled == false)
+                {
+                    timerAutoDelay.Start();
+                }
                 //user.DelayInMinutes = 0;
             }
             string apiPathUserFinal = apiPathEmployee + user.ID;
@@ -365,12 +392,18 @@ namespace StkywControlPanelLight
             UpdateEmployee(user, apiPathUserFinal);
 
             labelCurrentDelay.Text = user.DelayInMinutes.ToString();
+            this.ActiveControl = null;
         }
         private void buttonTimeslotNext_Click(object sender, EventArgs e)
         {
+            timerAutoDelay.Start();
             if (timerOthersAlert.Enabled == false)
             {
                 timerOthersAlert.Start();
+            }
+            if (timerAutoDelay.Enabled == false)
+            {
+                timerAutoDelay.Start();
             }
             this.BackColor = SystemColors.Control;
 
@@ -467,12 +500,18 @@ namespace StkywControlPanelLight
                 DisplayValues(schedule, user);
                 StkywControlPanelLight.Properties.Settings.Default.settingInitialDelay = (int)user.DelayInMinutes;
             }
+            this.ActiveControl = null;
         }
         private void buttonTimeslotPrevious_Click(object sender, EventArgs e)
         {
+            timerAutoDelay.Start();
             if (timerOthersAlert.Enabled == false)
             {
                 timerOthersAlert.Start();
+            }
+            if (timerAutoDelay.Enabled == false)
+            {
+                timerAutoDelay.Start();
             }
             this.BackColor = SystemColors.Control;
 
@@ -565,12 +604,18 @@ namespace StkywControlPanelLight
                 DisplayValues(schedule, user);
                 StkywControlPanelLight.Properties.Settings.Default.settingInitialDelay = (int)user.DelayInMinutes;
             }
+            this.ActiveControl = null;
         }
         private void buttonTimeslotBestGuess_Click(object sender, EventArgs e)
         {
+            timerAutoDelay.Start();
             if (timerOthersAlert.Enabled == false)
             {
                 timerOthersAlert.Start();
+            }
+            if (timerAutoDelay.Enabled == false)
+            {
+                timerAutoDelay.Start();
             }
             this.BackColor = SystemColors.Control;
 
@@ -598,10 +643,19 @@ namespace StkywControlPanelLight
 
             for (int j = 0; j < schedules.Count; j++)
             {
-                if ((schedules[j].StartTime <= currentTime && schedules[j].EndTime > currentTime) || (j == schedules.Count - 1))
+                if (schedules[j].StartTime <= currentTime)
                 {
-                    nextTimeslot = schedules[j].ScheduleID;
-                    schedule = schedules[j];
+                    if ((schedules[j].StartTime <= currentTime && schedules[j].EndTime > currentTime) || (j == schedules.Count - 1))
+                    {
+                        nextTimeslot = schedules[j].ScheduleID;
+                        schedule = schedules[j];
+                        break;
+                    }
+                }
+                else if (schedules[j].StartTime > currentTime)
+                {
+                    nextTimeslot = schedules[0].ScheduleID;
+                    schedule = schedules[0];
                     break;
                 }
             }
@@ -620,12 +674,18 @@ namespace StkywControlPanelLight
                 DisplayValues(schedule, user);
                 StkywControlPanelLight.Properties.Settings.Default.settingInitialDelay = (int)user.DelayInMinutes;
             }
+            this.ActiveControl = null;
         }
         private void buttonTimeslotNextBreak_Click(object sender, EventArgs e)
         {
+            timerAutoDelay.Start();
             if (timerOthersAlert.Enabled == false)
             {
                 timerOthersAlert.Start();
+            }
+            if (timerAutoDelay.Enabled == false)
+            {
+                timerAutoDelay.Start();
             }
             this.BackColor = SystemColors.Control;
 
@@ -635,29 +695,32 @@ namespace StkywControlPanelLight
             TimeSpan currentTime = new TimeSpan();
             currentTime = DateTime.Now.TimeOfDay;
 
+            int lastCurrentSchedule = 0;
             IEnumerable<Schedule> query = schedules.Where(s => s.Active == true);
             List<Schedule> activeTimeslots = new List<Schedule>();
             foreach (Schedule queryItem in query)
             {
                 activeTimeslots.Add(queryItem);
+                lastCurrentSchedule = queryItem.ScheduleID;
             }
 
             bool foundABreak = false;
             int currentSlot = 0;
             for (int j = 0; j < schedules.Count; j++)
             {
-                if ((schedules[j].StartTime >= currentTime && schedules[j].EndTime < currentTime))
+                if (schedules[j].ScheduleID == lastCurrentSchedule)
                 {
                     currentSlot = j;
                 }
             }
-            for (int k = currentSlot; k < schedules.Count; k++)
+            for (int k = currentSlot+1; k < schedules.Count; k++)
             {
                 if (schedules[k].TsType == "Break")
                 {
                     nextTimeslot = schedules[k].ScheduleID;
                     schedule = schedules[k];
                     foundABreak = true;
+                    break;
                 }
             }
 
@@ -685,12 +748,17 @@ namespace StkywControlPanelLight
                 DisplayValues(schedule, user);
                 StkywControlPanelLight.Properties.Settings.Default.settingInitialDelay = (int)user.DelayInMinutes;
             }
+            this.ActiveControl = null;
         }
         private void buttonTimeslotResetToZero_Click(object sender, EventArgs e)
         {
             if (timerOthersAlert.Enabled == false)
             {
                 timerOthersAlert.Start();
+            }
+            if (timerAutoDelay.Enabled == true)
+            {
+                timerAutoDelay.Stop();
             }
             this.BackColor = SystemColors.Control;
 
@@ -703,6 +771,7 @@ namespace StkywControlPanelLight
 
             labelCurrentDelay.Text = user.DelayInMinutes.ToString();
             StkywControlPanelLight.Properties.Settings.Default.settingInitialDelay = (int)user.DelayInMinutes;
+            this.ActiveControl = null;
         }
         private void buttonTimeslotMerge2_Click(object sender, EventArgs e)
         {
@@ -725,6 +794,10 @@ namespace StkywControlPanelLight
             if (timerOthersAlert.Enabled == false)
             {
                 timerOthersAlert.Start();
+            }
+            if (timerAutoDelay.Enabled == false)
+            {
+                timerAutoDelay.Start();
             }
             this.BackColor = SystemColors.Control;
 
@@ -836,6 +909,7 @@ namespace StkywControlPanelLight
                 labelCurrentDelay.Text = user.DelayInMinutes.ToString();
                 StkywControlPanelLight.Properties.Settings.Default.settingInitialDelay = (int)user.DelayInMinutes;
             }
+            this.ActiveControl = null;
         }
         private void DisplayValues(Schedule schedule, EmployeeCurrentUsage user)
         {
@@ -854,6 +928,10 @@ namespace StkywControlPanelLight
             if (timerOthersAlert.Enabled == false)
             {
                 timerOthersAlert.Start();
+            }
+            if (timerAutoDelay.Enabled == true)
+            {
+                timerAutoDelay.Stop();
             }
 
             string txt = comboBox1.SelectedItem.ToString();
@@ -893,6 +971,7 @@ namespace StkywControlPanelLight
             user.LastActive = DateTime.Now;
             user.ModifiedDate = DateTime.Now;
             UpdateEmployee(user, apiPathUserFinal);
+            this.ActiveControl = null;
         }
         #endregion
         #region Klasser
@@ -960,6 +1039,13 @@ namespace StkywControlPanelLight
             public int WeekRollFromLatestActive { get; set; }
             public System.DateTime SysRowTmModified { get; set; }
         }
+        public class CallIn
+        {
+            public int EmployeeID { get; set; }
+            public int CompanyID { get; set; }
+            public string Besked { get; set; }
+            public DateTime SysRowCreated { get; set; }
+        }
         #endregion
         private void FormStkywControlPanelLightV2_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -967,7 +1053,7 @@ namespace StkywControlPanelLight
         }
         private void timerAutoDelay_Tick(object sender, EventArgs e)
         {
-            IEnumerable<Schedule> query = schedules.Where(s => s.Active == true);
+             IEnumerable<Schedule> query = schedules.Where(s => s.Active == true);
             List<Schedule> activeTimeslots = new List<Schedule>();
             foreach (Schedule queryItem in query)
             {
@@ -993,6 +1079,12 @@ namespace StkywControlPanelLight
         private void button1_Click(object sender, EventArgs e)
         {
             pictureBox1_Click(sender, e);
+        }
+
+        private void buttonCallInText_Click(object sender, EventArgs e)
+        {
+            var formPopup = new FormCallInMessage(userId, companyID, userName);
+            formPopup.ShowDialog(this);
         }
     }
 }

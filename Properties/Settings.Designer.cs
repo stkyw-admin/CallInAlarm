@@ -70,5 +70,29 @@ namespace StkywControlPanelLight.Properties {
                 this["settingInitialDelay"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int settingLoginWeek {
+            get {
+                return ((int)(this["settingLoginWeek"]));
+            }
+            set {
+                this["settingLoginWeek"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int settingOnlyAlert {
+            get {
+                return ((int)(this["settingOnlyAlert"]));
+            }
+            set {
+                this["settingOnlyAlert"] = value;
+            }
+        }
     }
 }

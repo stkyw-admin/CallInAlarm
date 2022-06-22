@@ -35,6 +35,8 @@ namespace StkywControlPanelLight
                 textBoxUsername.Text = StkywControlPanelLight.Properties.Settings.Default.settingUsername;
                 textBoxPassword.Text = StkywControlPanelLight.Properties.Settings.Default.settingPassword;
                 textBoxCompany.Text = StkywControlPanelLight.Properties.Settings.Default.settingCompany;
+                if (StkywControlPanelLight.Properties.Settings.Default.settingOnlyAlert == 1)
+                    checkBoxOnlyAlarm.Checked = true;
                 checkBoxRememberMe.Checked = true;
             }
         }
@@ -45,6 +47,11 @@ namespace StkywControlPanelLight
             string password = textBoxPassword.Text;
             string company = textBoxCompany.Text;
             Form f = this;
+            StkywControlPanelLight.Properties.Settings.Default.settingLoginWeek = 0;
+            if (textBoxWeekLogin.Text.Length > 0)
+            {
+                StkywControlPanelLight.Properties.Settings.Default.settingLoginWeek = Convert.ToInt32(textBoxWeekLogin.Text);
+            }
             
             if (checkBoxRememberMe.Checked == true)
             {
@@ -53,13 +60,14 @@ namespace StkywControlPanelLight
                 StkywControlPanelLight.Properties.Settings.Default.settingCompany = company;
                 StkywControlPanelLight.Properties.Settings.Default.Save();
             }
+            bool alarmOnly = checkBoxOnlyAlarm.Checked;
 
-            PerformLogin(sender, e, username, password, company, f);
+            PerformLogin(sender, e, username, password, company, f, alarmOnly);
 
             //Test
             //UserID = 8;
         }
-        static async Task PerformLogin(object sender, EventArgs e, string username, string password, string company, Form logForm)
+        static async Task PerformLogin(object sender, EventArgs e, string username, string password, string company, Form logForm, bool alarmOnly)
         {
             allEmployees = await GetEmployeeList(apiPathlogin);
             allCompanies = await GetCompanyList(apiPathCompany);
@@ -101,14 +109,23 @@ namespace StkywControlPanelLight
                 verified = false;
             }
 
-            if (verified == true)
+            if (verified == true && alarmOnly == false)
             {
+                StkywControlPanelLight.Properties.Settings.Default.settingOnlyAlert = 0;
                 FormStkywControlPanelLightV2 main = new FormStkywControlPanelLightV2(loginUser.ID, loginUser.Name, loginCompany.ID);
                 //main.userId = loginUser.ID;
                 //main.userName = loginUser.Name;
                 //main.companyID = loginCompany.ID;
                 logForm.Hide();
                 main.Show();
+            }
+            else if (verified == true && alarmOnly == true)
+            {
+
+                StkywControlPanelLight.Properties.Settings.Default.settingOnlyAlert = 1;
+                FormAlarmOnly main2 = new FormAlarmOnly(loginUser.ID, loginUser.Name, loginCompany.ID);
+                logForm.Hide();
+                main2.Show();
             }
             else
             {
