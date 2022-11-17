@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace StkywControlPanelLight
+namespace StkywControlPanelCallInAlarm
 {
     public partial class LoginForm : Form
     {
@@ -30,13 +30,11 @@ namespace StkywControlPanelLight
         public LoginForm()
         {
             InitializeComponent();
-            if (StkywControlPanelLight.Properties.Settings.Default.settingUsername != null)
+            if (StkywControlPanelCallInAlarm.Properties.Settings.Default.settingUsername != null)
             {
-                textBoxUsername.Text = StkywControlPanelLight.Properties.Settings.Default.settingUsername;
-                textBoxPassword.Text = StkywControlPanelLight.Properties.Settings.Default.settingPassword;
-                textBoxCompany.Text = StkywControlPanelLight.Properties.Settings.Default.settingCompany;
-                if (StkywControlPanelLight.Properties.Settings.Default.settingOnlyAlert == 1)
-                    checkBoxOnlyAlarm.Checked = true;
+                textBoxUsername.Text = StkywControlPanelCallInAlarm.Properties.Settings.Default.settingUsername;
+                textBoxPassword.Text = StkywControlPanelCallInAlarm.Properties.Settings.Default.settingPassword;
+                textBoxCompany.Text = StkywControlPanelCallInAlarm.Properties.Settings.Default.settingCompany;
                 checkBoxRememberMe.Checked = true;
             }
         }
@@ -47,27 +45,22 @@ namespace StkywControlPanelLight
             string password = textBoxPassword.Text;
             string company = textBoxCompany.Text;
             Form f = this;
-            StkywControlPanelLight.Properties.Settings.Default.settingLoginWeek = 0;
-            if (textBoxWeekLogin.Text.Length > 0)
-            {
-                StkywControlPanelLight.Properties.Settings.Default.settingLoginWeek = Convert.ToInt32(textBoxWeekLogin.Text);
-            }
+            StkywControlPanelCallInAlarm.Properties.Settings.Default.settingLoginWeek = 0;
             
             if (checkBoxRememberMe.Checked == true)
             {
-                StkywControlPanelLight.Properties.Settings.Default.settingUsername = username;
-                StkywControlPanelLight.Properties.Settings.Default.settingPassword = password;
-                StkywControlPanelLight.Properties.Settings.Default.settingCompany = company;
-                StkywControlPanelLight.Properties.Settings.Default.Save();
+                StkywControlPanelCallInAlarm.Properties.Settings.Default.settingUsername = username;
+                StkywControlPanelCallInAlarm.Properties.Settings.Default.settingPassword = password;
+                StkywControlPanelCallInAlarm.Properties.Settings.Default.settingCompany = company;
+                StkywControlPanelCallInAlarm.Properties.Settings.Default.Save();
             }
-            bool alarmOnly = checkBoxOnlyAlarm.Checked;
-
-            PerformLogin(sender, e, username, password, company, f, alarmOnly);
+           
+            PerformLogin(sender, e, username, password, company, f);
 
             //Test
             //UserID = 8;
         }
-        static async Task PerformLogin(object sender, EventArgs e, string username, string password, string company, Form logForm, bool alarmOnly)
+        static async Task PerformLogin(object sender, EventArgs e, string username, string password, string company, Form logForm)
         {
             allEmployees = await GetEmployeeList(apiPathlogin);
             allCompanies = await GetCompanyList(apiPathCompany);
@@ -109,23 +102,15 @@ namespace StkywControlPanelLight
                 verified = false;
             }
 
-            if (verified == true && alarmOnly == false)
+            if (verified == true)
             {
-                StkywControlPanelLight.Properties.Settings.Default.settingOnlyAlert = 0;
-                FormStkywControlPanelLightV2 main = new FormStkywControlPanelLightV2(loginUser.ID, loginUser.Name, loginCompany.ID);
+                StkywControlPanelCallInAlarm.Properties.Settings.Default.settingOnlyAlert = 0;
+                FormStkywControlPanelCallInAlarm main = new FormStkywControlPanelCallInAlarm(loginUser.ID, loginUser.Name, loginCompany.ID);
                 //main.userId = loginUser.ID;
                 //main.userName = loginUser.Name;
                 //main.companyID = loginCompany.ID;
                 logForm.Hide();
                 main.Show();
-            }
-            else if (verified == true && alarmOnly == true)
-            {
-
-                StkywControlPanelLight.Properties.Settings.Default.settingOnlyAlert = 1;
-                FormAlarmOnly main2 = new FormAlarmOnly(loginUser.ID, loginUser.Name, loginCompany.ID);
-                logForm.Hide();
-                main2.Show();
             }
             else
             {

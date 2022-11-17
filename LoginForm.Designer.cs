@@ -1,5 +1,5 @@
 ﻿
-namespace StkywControlPanelLight
+namespace StkywControlPanelCallInAlarm
 {
     partial class LoginForm
     {
@@ -38,9 +38,6 @@ namespace StkywControlPanelLight
             this.buttonLogin = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.checkBoxRememberMe = new System.Windows.Forms.CheckBox();
-            this.textBoxWeekLogin = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.checkBoxOnlyAlarm = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -49,7 +46,7 @@ namespace StkywControlPanelLight
             this.label1.Location = new System.Drawing.Point(16, 18);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(82, 17);
+            this.label1.Size = new System.Drawing.Size(76, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "Brugernavn";
             // 
@@ -76,7 +73,7 @@ namespace StkywControlPanelLight
             this.label2.Location = new System.Drawing.Point(16, 50);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(95, 17);
+            this.label2.Size = new System.Drawing.Size(93, 16);
             this.label2.TabIndex = 0;
             this.label2.Text = "Adgangskode";
             // 
@@ -94,14 +91,14 @@ namespace StkywControlPanelLight
             this.label3.Location = new System.Drawing.Point(16, 82);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(82, 17);
+            this.label3.Size = new System.Drawing.Size(79, 16);
             this.label3.TabIndex = 0;
             this.label3.Text = "Virksomhed";
             // 
             // buttonLogin
             // 
             this.buttonLogin.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonLogin.Location = new System.Drawing.Point(16, 197);
+            this.buttonLogin.Location = new System.Drawing.Point(16, 137);
             this.buttonLogin.Margin = new System.Windows.Forms.Padding(4);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(113, 28);
@@ -113,7 +110,7 @@ namespace StkywControlPanelLight
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(141, 197);
+            this.buttonCancel.Location = new System.Drawing.Point(141, 137);
             this.buttonCancel.Margin = new System.Windows.Forms.Padding(4);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(113, 28);
@@ -129,40 +126,10 @@ namespace StkywControlPanelLight
             this.checkBoxRememberMe.Location = new System.Drawing.Point(13, 109);
             this.checkBoxRememberMe.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxRememberMe.Name = "checkBoxRememberMe";
-            this.checkBoxRememberMe.Size = new System.Drawing.Size(173, 21);
+            this.checkBoxRememberMe.Size = new System.Drawing.Size(165, 20);
             this.checkBoxRememberMe.TabIndex = 4;
             this.checkBoxRememberMe.Text = "Husk mine oplysninger";
             this.checkBoxRememberMe.UseVisualStyleBackColor = true;
-            // 
-            // textBoxWeekLogin
-            // 
-            this.textBoxWeekLogin.Location = new System.Drawing.Point(141, 137);
-            this.textBoxWeekLogin.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxWeekLogin.Name = "textBoxWeekLogin";
-            this.textBoxWeekLogin.Size = new System.Drawing.Size(112, 22);
-            this.textBoxWeekLogin.TabIndex = 8;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 140);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(117, 17);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Hent specifik uge";
-            // 
-            // checkBoxOnlyAlarm
-            // 
-            this.checkBoxOnlyAlarm.AutoSize = true;
-            this.checkBoxOnlyAlarm.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxOnlyAlarm.Location = new System.Drawing.Point(13, 168);
-            this.checkBoxOnlyAlarm.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxOnlyAlarm.Name = "checkBoxOnlyAlarm";
-            this.checkBoxOnlyAlarm.Size = new System.Drawing.Size(127, 21);
-            this.checkBoxOnlyAlarm.TabIndex = 9;
-            this.checkBoxOnlyAlarm.Text = "Brug kun Alarm";
-            this.checkBoxOnlyAlarm.UseVisualStyleBackColor = true;
             // 
             // LoginForm
             // 
@@ -170,10 +137,7 @@ namespace StkywControlPanelLight
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(267, 238);
-            this.Controls.Add(this.checkBoxOnlyAlarm);
-            this.Controls.Add(this.textBoxWeekLogin);
-            this.Controls.Add(this.label4);
+            this.ClientSize = new System.Drawing.Size(267, 177);
             this.Controls.Add(this.checkBoxRememberMe);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonLogin);
@@ -203,8 +167,5 @@ namespace StkywControlPanelLight
         private System.Windows.Forms.Button buttonLogin;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.CheckBox checkBoxRememberMe;
-        private System.Windows.Forms.TextBox textBoxWeekLogin;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.CheckBox checkBoxOnlyAlarm;
     }
 }
