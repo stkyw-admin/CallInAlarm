@@ -41,7 +41,7 @@ namespace StkywControlPanelCallIn
             user.DelayInMinutes = 0;
             user.Alarm = false;
             user.Away = false;
-            user.CpUsed = "PC Client";
+            user.CpUsed = "PC CallInAlarm";
             user.LastActive = DateTime.Now;
             user.ModifiedDate = DateTime.Now;
 
