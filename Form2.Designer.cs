@@ -69,17 +69,7 @@ namespace StkywControlPanelCallIn
             this.buttonCallInText.TabIndex = 13;
             this.buttonCallInText.Text = "Kald";
             this.buttonCallInText.UseVisualStyleBackColor = false;
-            this.buttonCallInText.Click += new System.EventHandler(this.buttonCallInText_Click_1);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(251, 31);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(29, 23);
-            this.button1.TabIndex = 52;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonCallInText.Click += new System.EventHandler(this.buttonCallInText_Click);
             // 
             // textBoxCallInNew
             // 
