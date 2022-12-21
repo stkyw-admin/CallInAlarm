@@ -14,9 +14,9 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static StkywControlPanelCallIn.FormStkywControlPanelCallInV2;
+using static StkywControlPanelCallInAlarm.FormStkywControlPanelCallInV2;
 
-namespace StkywControlPanelCallIn
+namespace StkywControlPanelCallInAlarm
 {
     public partial class FormStkywControlPanelCallInV2 : Form
     {
@@ -75,7 +75,7 @@ namespace StkywControlPanelCallIn
             user.DelayInMinutes = 0;
             user.Alarm = false;
             user.Away = false;
-            user.CpUsed = "CallIn Client";
+            user.CpUsed = "CallIn Alarm Client";
             user.LastActive = DateTime.Now;
             user.ModifiedDate = DateTime.Now;
             user.Directions = directions;
@@ -85,7 +85,7 @@ namespace StkywControlPanelCallIn
             timerAutoDelay.Start();
             timerOthersAlert.Start();
             labelAlertOther.Dock = DockStyle.Fill;
-            StkywControlPanelCallIn.Properties.Settings.Default.settingInitialDelay = 0;
+            Properties.Settings.Default.settingInitialDelay = 0;
             sw = Stopwatch.StartNew();
 
         }
@@ -302,6 +302,108 @@ namespace StkywControlPanelCallIn
         {
             if (e.KeyCode == Keys.Return)
                 buttonCallInText.PerformClick();
+        }
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            if (timerOthersAlert.Enabled == false)
+            {
+                timerOthersAlert.Start();
+            }
+            else
+            {
+                timerOthersAlert.Stop();
+            }
+            timerFlashing.Start();
+
+            if (user.Alarm == false)
+            {
+                user.Alarm = true;
+                timerFlashing.Start();
+            }
+            else if (user.Alarm == true)
+            {
+                user.Alarm = false;
+                timerFlashing.Stop();
+                this.BackColor = SystemColors.Control;
+            }
+
+            string apiPathUserFinal = apiPathEmployee + user.ID;
+            user.LastActive = DateTime.Now;
+            user.ModifiedDate = DateTime.Now;
+            user.ChosenLayout = Properties.Settings.Default.settingLocation;
+            UpdateEmployee(user, apiPathUserFinal);
+            this.ActiveControl = null;
+        }
+
+        private void timerOthersAlert_Tick(object sender, EventArgs e)
+        {
+            performAlertCheck(companyID, labelAlertOther, user, timerFlashing);
+            if (timerFlashing.Enabled == false)
+            {
+                this.BackColor = ColorTranslator.FromHtml("#ffffff");//SystemColors.Control;
+            }
+            if (sw.ElapsedMilliseconds < 120000)
+            {
+                timerAutoDelay.Enabled = true;
+                timerAutoDelay.Start();
+            }
+        }
+        static async Task performAlertCheck(int companyID, Label label, EmployeeCurrentUsage user, Timer timer)
+        {
+            allEmployees = await GetEmployeeList(apiPathlogin);
+            ecuList = await GetECUList(apiPathEmployee);
+            int foundAlertCollegue = 0;
+
+            IEnumerable<vw_EmployeeLogin> query = allEmployees.Where(s => s.CompanyID == companyID);
+            List<vw_EmployeeLogin> CompanyEmployees = new List<vw_EmployeeLogin>();
+            foreach (vw_EmployeeLogin queryItem in query)
+            {
+                CompanyEmployees.Add(queryItem);
+            }
+
+            IEnumerable<EmployeeCurrentUsage> ecuQuery = ecuList.Where(s => s.CompanyID == companyID && s.ID != user.ID);
+            List<EmployeeCurrentUsage> OnlyCollegues = new List<EmployeeCurrentUsage>();
+            foreach (EmployeeCurrentUsage qi in ecuQuery)
+            {
+                OnlyCollegues.Add(qi);
+            }
+
+            foreach (EmployeeCurrentUsage queryItem in OnlyCollegues)
+            {
+                if (queryItem.Alarm == true)
+                {
+                    foundAlertCollegue = queryItem.ID;
+                }
+            }
+            if (foundAlertCollegue > 0)
+            {
+                vw_EmployeeLogin alertUser = new vw_EmployeeLogin();
+                for (int i = 0; i < CompanyEmployees.Count; i++)
+                {
+                    if (CompanyEmployees[i].ID == foundAlertCollegue)
+                    {
+                        alertUser = CompanyEmployees[i];
+                    }
+                }
+                timer.Start();
+                label.Visible = true;
+                label.Text = alertUser.Name + " har brug for hjælp!";
+                label.BringToFront();
+            }
+            else
+            {
+                timer.Stop();
+                label.Visible = false;
+                label.Text = "";
+                label.SendToBack();
+            }
+        }
+        private void timerFlashing_Tick(object sender, EventArgs e)
+        {
+            if (this.BackColor != ColorTranslator.FromHtml("#ffffff"))
+                this.BackColor = ColorTranslator.FromHtml("#ffffff");//SystemColors.Control;
+            else
+                this.BackColor = Color.Red;
         }
     }
 }

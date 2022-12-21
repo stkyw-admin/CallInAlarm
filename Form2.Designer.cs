@@ -1,7 +1,7 @@
 ﻿
 using System.Timers;
 
-namespace StkywControlPanelCallIn
+namespace StkywControlPanelCallInAlarm
 {
     partial class FormStkywControlPanelCallInV2
     {
@@ -43,6 +43,14 @@ namespace StkywControlPanelCallIn
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
+            // timerFlashing
+            // 
+            this.timerFlashing.Tick += new System.EventHandler(this.timerFlashing_Tick);
+            // 
+            // timerOthersAlert
+            // 
+            this.timerOthersAlert.Tick += new System.EventHandler(this.timerOthersAlert_Tick);
+            // 
             // labelAlertOther
             // 
             this.labelAlertOther.Dock = System.Windows.Forms.DockStyle.Left;
@@ -83,13 +91,14 @@ namespace StkywControlPanelCallIn
             // pictureBox1
             // 
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.pictureBox1.Image = global::StkywControlPanelCallIn.Properties.Resources._62px;
+            this.pictureBox1.Image = global::StkywControlPanelCallInAlarm.Properties.Resources._62Alarm;
             this.pictureBox1.Location = new System.Drawing.Point(239, 12);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(62, 62);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 47;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // FormStkywControlPanelCallInV2
             // 

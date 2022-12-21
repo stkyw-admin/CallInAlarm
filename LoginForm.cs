@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace StkywControlPanelCallIn
+namespace StkywControlPanelCallInAlarm
 {
     public partial class LoginForm : Form
     {
@@ -30,12 +30,12 @@ namespace StkywControlPanelCallIn
         public LoginForm()
         {
             InitializeComponent();
-            if (StkywControlPanelCallIn.Properties.Settings.Default.settingUsername != null)
+            if (Properties.Settings.Default.settingUsername != null)
             {
-                textBoxUsername.Text = StkywControlPanelCallIn.Properties.Settings.Default.settingUsername;
-                textBoxPassword.Text = StkywControlPanelCallIn.Properties.Settings.Default.settingPassword;
-                textBoxCompany.Text = StkywControlPanelCallIn.Properties.Settings.Default.settingCompany;
-                textBoxLoginDirections.Text = StkywControlPanelCallIn.Properties.Settings.Default.settingDirections;
+                textBoxUsername.Text = Properties.Settings.Default.settingUsername;
+                textBoxPassword.Text = Properties.Settings.Default.settingPassword;
+                textBoxCompany.Text = Properties.Settings.Default.settingCompany;
+                textBoxLoginDirections.Text = Properties.Settings.Default.settingDirections;
                 checkBoxRememberMe.Checked = true;
             }
         }
@@ -47,15 +47,15 @@ namespace StkywControlPanelCallIn
             string company = textBoxCompany.Text;
             string directions = textBoxLoginDirections.Text;
             Form f = this;
-            StkywControlPanelCallIn.Properties.Settings.Default.settingLoginWeek = 0;
+            Properties.Settings.Default.settingLoginWeek = 0;
             
             if (checkBoxRememberMe.Checked == true)
             {
-                StkywControlPanelCallIn.Properties.Settings.Default.settingUsername = username;
-                StkywControlPanelCallIn.Properties.Settings.Default.settingPassword = password;
-                StkywControlPanelCallIn.Properties.Settings.Default.settingCompany = company;
-                StkywControlPanelCallIn.Properties.Settings.Default.settingDirections = directions;
-                StkywControlPanelCallIn.Properties.Settings.Default.Save();
+                Properties.Settings.Default.settingUsername = username;
+                Properties.Settings.Default.settingPassword = password;
+                Properties.Settings.Default.settingCompany = company;
+                Properties.Settings.Default.settingDirections = directions;
+                Properties.Settings.Default.Save();
             }
             
             PerformLogin(sender, e, username, password, company, f, directions);
@@ -109,7 +109,7 @@ namespace StkywControlPanelCallIn
 
             if (verified == true)
             {
-                StkywControlPanelCallIn.Properties.Settings.Default.settingOnlyAlert = 0;
+                Properties.Settings.Default.settingOnlyAlert = 0;
                 FormStkywControlPanelCallInV2 main = new FormStkywControlPanelCallInV2(loginUser.ID, loginUser.Name, loginCompany.ID, directions);
                 //main.userId = loginUser.ID;
                 //main.userName = loginUser.Name;

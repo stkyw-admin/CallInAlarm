@@ -1,5 +1,5 @@
 ﻿
-namespace StkywControlPanelCallIn
+namespace StkywControlPanelCallInAlarm
 {
     partial class LoginForm
     {
@@ -29,6 +29,7 @@ namespace StkywControlPanelCallIn
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxUsername = new System.Windows.Forms.TextBox();
             this.textBoxPassword = new System.Windows.Forms.TextBox();
@@ -171,6 +172,7 @@ namespace StkywControlPanelCallIn
             this.Controls.Add(this.textBoxUsername);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "LoginForm";
             this.Text = "LoginForm";

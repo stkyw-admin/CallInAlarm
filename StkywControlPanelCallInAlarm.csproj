@@ -6,14 +6,14 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{124E80D7-5BFF-4FFA-8DFF-EC5BD51BB276}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>StkywControlPanelCallIn</RootNamespace>
-    <AssemblyName>StkywControlPanelCallIn</AssemblyName>
+    <RootNamespace>StkywControlPanelCallInAlarm</RootNamespace>
+    <AssemblyName>StkywControlPanelCallInAlarm</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>ftp://web4.dandomain.dk/www/files/ControlPanelCallIn/</PublishUrl>
+    <PublishUrl>ftp://web4.dandomain.dk/www/files/ControlPanelCallInAlarm/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -23,15 +23,15 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>https://sorrytokeepyouwaiting.com/files/ControlPanelCallIn/</InstallUrl>
-    <UpdateUrl>http://www.sorrytokeepyouwaiting.com/files/ControlPanelCallIn/</UpdateUrl>
+    <InstallUrl>https://sorrytokeepyouwaiting.com/files/ControlPanelCallInAlarm/</InstallUrl>
+    <UpdateUrl>http://www.sorrytokeepyouwaiting.com/files/ControlPanelCallInAlarm/</UpdateUrl>
     <SupportUrl>https://sorrytokeepyouwaiting.com/FAQ.aspx</SupportUrl>
-    <ProductName>StkywControlPanel Call-In</ProductName>
+    <ProductName>StkywControlPanel Call-In Alarm</ProductName>
     <PublisherName>SorryToKeepYouWaiting.com</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>5</ApplicationRevision>
-    <ApplicationVersion>0.1.0.%2a</ApplicationVersion>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>0.1.3.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -97,12 +97,6 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormAlarmOnly.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormAlarmOnly.Designer.cs">
-      <DependentUpon>FormAlarmOnly.cs</DependentUpon>
-    </Compile>
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,9 +113,6 @@
     </Compile>
     <EmbeddedResource Include="Form2.resx">
       <DependentUpon>Form2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormAlarmOnly.resx">
-      <DependentUpon>FormAlarmOnly.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
