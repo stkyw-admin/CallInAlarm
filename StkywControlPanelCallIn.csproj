@@ -6,16 +6,16 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{124E80D7-5BFF-4FFA-8DFF-EC5BD51BB276}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>StkywControlPanelLight</RootNamespace>
-    <AssemblyName>StkywControlPanelLight</AssemblyName>
+    <RootNamespace>StkywControlPanelCallIn</RootNamespace>
+    <AssemblyName>StkywControlPanelCallIn</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Users\stars\OneDrive\Skrivebord\StkywControlPanelPublish\</PublishUrl>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>ftp://web4.dandomain.dk/www/files/ControlPanelCallIn/</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
+    <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -23,11 +23,17 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <UpdateUrl>http://www.sorrytokeepyouwaiting.com/files/StkywControlPanel_Setup.exe/</UpdateUrl>
+    <InstallUrl>https://sorrytokeepyouwaiting.com/files/ControlPanelCallIn/</InstallUrl>
+    <UpdateUrl>http://www.sorrytokeepyouwaiting.com/files/ControlPanelCallIn/</UpdateUrl>
+    <SupportUrl>https://sorrytokeepyouwaiting.com/FAQ.aspx</SupportUrl>
+    <ProductName>StkywControlPanel Call-In</ProductName>
+    <PublisherName>SorryToKeepYouWaiting.com</PublisherName>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>14</ApplicationRevision>
-    <ApplicationVersion>0.5.1.%2a</ApplicationVersion>
+    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationVersion>0.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -62,6 +68,9 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Sorrytokeepyouwaiting-circle_38px_icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -94,12 +103,6 @@
     <Compile Include="FormAlarmOnly.Designer.cs">
       <DependentUpon>FormAlarmOnly.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormCallInMessage.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormCallInMessage.Designer.cs">
-      <DependentUpon>FormCallInMessage.cs</DependentUpon>
-    </Compile>
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -108,33 +111,39 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="wadAliasSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="wadAliasSelector.Designer.cs">
+      <DependentUpon>wadAliasSelector.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form2.resx">
       <DependentUpon>Form2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormAlarmOnly.resx">
       <DependentUpon>FormAlarmOnly.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormCallInMessage.resx">
-      <DependentUpon>FormCallInMessage.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
+    <EmbeddedResource Include="wadAliasSelector.resx">
+      <DependentUpon>wadAliasSelector.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -144,9 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Sorrytokeepyouwaiting-circle-Red-50px1.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Sorrytokeepyouwaiting-circle_38px_icon.ico" />
@@ -164,10 +170,18 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Sorrytokeepyouwaiting-circle-Red-CMYK-%40300pct1.png" />
+    <None Include="Resources\Sorrytokeepyouwaiting-circle-CMYK-white-back-100pct.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Sorrytokeepyouwaiting-circle-Red-CMYK-%40600pct.png" />
+    <Content Include="Resources\50px.png" />
+    <None Include="Resources\Sorrytokeepyouwaiting-circle-%4062px.jpg" />
+    <None Include="Resources\62x62.png" />
+    <None Include="Resources\62Alarm.png" />
+    <None Include="Resources\75px1.png" />
+    <None Include="Resources\62px1.png" />
+    <None Include="Resources\50px1.png" />
+    <Content Include="Resources\62px.png" />
+    <Content Include="Resources\75px.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

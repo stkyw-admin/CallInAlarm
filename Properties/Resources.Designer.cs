@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace StkywControlPanelLight.Properties {
+namespace StkywControlPanelCallIn.Properties {
     using System;
     
     
@@ -19,7 +19,7 @@ namespace StkywControlPanelLight.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -39,7 +39,7 @@ namespace StkywControlPanelLight.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StkywControlPanelLight.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StkywControlPanelCallIn.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,6 +61,56 @@ namespace StkywControlPanelLight.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _50px {
+            get {
+                object obj = ResourceManager.GetObject("50px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _62Alarm {
+            get {
+                object obj = ResourceManager.GetObject("62Alarm", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _62px {
+            get {
+                object obj = ResourceManager.GetObject("62px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _62x62 {
+            get {
+                object obj = ResourceManager.GetObject("62x62", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _75px {
+            get {
+                object obj = ResourceManager.GetObject("75px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon icon {
@@ -73,9 +123,9 @@ namespace StkywControlPanelLight.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Sorrytokeepyouwaiting_circle_Red_50px {
+        internal static System.Drawing.Bitmap Sorrytokeepyouwaiting_circle__62px {
             get {
-                object obj = ResourceManager.GetObject("Sorrytokeepyouwaiting-circle-Red-50px", resourceCulture);
+                object obj = ResourceManager.GetObject("Sorrytokeepyouwaiting-circle-@62px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,19 +133,9 @@ namespace StkywControlPanelLight.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Sorrytokeepyouwaiting_circle_Red_CMYK__300pct {
+        internal static System.Drawing.Bitmap Sorrytokeepyouwaiting_circle_CMYK_white_back_100pct {
             get {
-                object obj = ResourceManager.GetObject("Sorrytokeepyouwaiting-circle-Red-CMYK-@300pct", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Sorrytokeepyouwaiting_circle_Red_CMYK__600pct {
-            get {
-                object obj = ResourceManager.GetObject("Sorrytokeepyouwaiting-circle-Red-CMYK-@600pct", resourceCulture);
+                object obj = ResourceManager.GetObject("Sorrytokeepyouwaiting-circle-CMYK-white-back-100pct", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

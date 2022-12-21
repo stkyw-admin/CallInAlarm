@@ -1,5 +1,5 @@
 ﻿
-namespace StkywControlPanelLight
+namespace StkywControlPanelCallIn
 {
     partial class FormAlarmOnly
     {
@@ -51,7 +51,6 @@ namespace StkywControlPanelLight
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackgroundImage = global::StkywControlPanelLight.Properties.Resources.Sorrytokeepyouwaiting_circle_Red_CMYK__600pct;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox1.Location = new System.Drawing.Point(13, 13);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);

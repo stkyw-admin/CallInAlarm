@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace StkywControlPanelLight
+namespace StkywControlPanelCallIn
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace StkywControlPanelLight
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new FormStkywControlPanelLightV2());
+            //Application.Run(new FormStkywControlPanelCallInV2());
             Application.Run(new LoginForm());
         }
     }

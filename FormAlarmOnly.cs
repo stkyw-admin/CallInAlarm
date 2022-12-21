@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace StkywControlPanelLight
+namespace StkywControlPanelCallIn
 {
     public partial class FormAlarmOnly : Form
     {
@@ -26,7 +26,6 @@ namespace StkywControlPanelLight
         public FormAlarmOnly(int var1, string var2, int var3)
         {
             Cursor.Current = Cursors.WaitCursor;
-            this.Icon = StkywControlPanelLight.Properties.Resources.icon;
             userId = var1;
             userName = var2;
             companyID = var3;

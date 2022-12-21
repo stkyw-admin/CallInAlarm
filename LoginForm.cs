@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace StkywControlPanelLight
+namespace StkywControlPanelCallIn
 {
     public partial class LoginForm : Form
     {
@@ -30,13 +30,12 @@ namespace StkywControlPanelLight
         public LoginForm()
         {
             InitializeComponent();
-            if (StkywControlPanelLight.Properties.Settings.Default.settingUsername != null)
+            if (StkywControlPanelCallIn.Properties.Settings.Default.settingUsername != null)
             {
-                textBoxUsername.Text = StkywControlPanelLight.Properties.Settings.Default.settingUsername;
-                textBoxPassword.Text = StkywControlPanelLight.Properties.Settings.Default.settingPassword;
-                textBoxCompany.Text = StkywControlPanelLight.Properties.Settings.Default.settingCompany;
-                if (StkywControlPanelLight.Properties.Settings.Default.settingOnlyAlert == 1)
-                    checkBoxOnlyAlarm.Checked = true;
+                textBoxUsername.Text = StkywControlPanelCallIn.Properties.Settings.Default.settingUsername;
+                textBoxPassword.Text = StkywControlPanelCallIn.Properties.Settings.Default.settingPassword;
+                textBoxCompany.Text = StkywControlPanelCallIn.Properties.Settings.Default.settingCompany;
+                textBoxLoginDirections.Text = StkywControlPanelCallIn.Properties.Settings.Default.settingDirections;
                 checkBoxRememberMe.Checked = true;
             }
         }
@@ -46,37 +45,42 @@ namespace StkywControlPanelLight
             string username = textBoxUsername.Text;
             string password = textBoxPassword.Text;
             string company = textBoxCompany.Text;
+            string directions = textBoxLoginDirections.Text;
             Form f = this;
-            StkywControlPanelLight.Properties.Settings.Default.settingLoginWeek = 0;
-            if (textBoxWeekLogin.Text.Length > 0)
-            {
-                StkywControlPanelLight.Properties.Settings.Default.settingLoginWeek = Convert.ToInt32(textBoxWeekLogin.Text);
-            }
+            StkywControlPanelCallIn.Properties.Settings.Default.settingLoginWeek = 0;
             
             if (checkBoxRememberMe.Checked == true)
             {
-                StkywControlPanelLight.Properties.Settings.Default.settingUsername = username;
-                StkywControlPanelLight.Properties.Settings.Default.settingPassword = password;
-                StkywControlPanelLight.Properties.Settings.Default.settingCompany = company;
-                StkywControlPanelLight.Properties.Settings.Default.Save();
+                StkywControlPanelCallIn.Properties.Settings.Default.settingUsername = username;
+                StkywControlPanelCallIn.Properties.Settings.Default.settingPassword = password;
+                StkywControlPanelCallIn.Properties.Settings.Default.settingCompany = company;
+                StkywControlPanelCallIn.Properties.Settings.Default.settingDirections = directions;
+                StkywControlPanelCallIn.Properties.Settings.Default.Save();
             }
-            bool alarmOnly = checkBoxOnlyAlarm.Checked;
-
-            PerformLogin(sender, e, username, password, company, f, alarmOnly);
+            
+            PerformLogin(sender, e, username, password, company, f, directions);
 
             //Test
             //UserID = 8;
         }
-        static async Task PerformLogin(object sender, EventArgs e, string username, string password, string company, Form logForm, bool alarmOnly)
+        static async Task PerformLogin(object sender, EventArgs e, string username, string password, string company, Form logForm, string directions)
         {
             allEmployees = await GetEmployeeList(apiPathlogin);
             allCompanies = await GetCompanyList(apiPathCompany);
             ecuList = await GetECUList(apiPathEcu);
             username = username.ToUpper();
 
+            for (int i = 0; i < allCompanies.Count; i++)
+            {
+                if (allCompanies[i].Name == company)
+                {
+                    loginCompany = allCompanies[i];
+                }
+            }
+
             for (int i = 0; i < allEmployees.Count; i++)
             {
-                if (allEmployees[i].Username.ToUpper() == username.ToUpper())
+                if (allEmployees[i].Username.ToUpper() == username && allEmployees[i].CompanyID == loginCompany.ID)
                 {
                     loginUser = allEmployees[i];
                 }
@@ -87,13 +91,7 @@ namespace StkywControlPanelLight
                     loggedInUser = ecuItem;
             }
 
-            for (int i = 0; i < allCompanies.Count; i++)
-            {
-                if (allCompanies[i].Name == company)
-                {
-                    loginCompany = allCompanies[i];
-                }
-            }
+            
             SHA256 sha256 = SHA256Managed.Create();
             byte[] hashValue;
             UTF8Encoding objUtf8 = new UTF8Encoding();
@@ -109,23 +107,18 @@ namespace StkywControlPanelLight
                 verified = false;
             }
 
-            if (verified == true && alarmOnly == false)
+            if (verified == true)
             {
-                StkywControlPanelLight.Properties.Settings.Default.settingOnlyAlert = 0;
-                FormStkywControlPanelLightV2 main = new FormStkywControlPanelLightV2(loginUser.ID, loginUser.Name, loginCompany.ID);
+                StkywControlPanelCallIn.Properties.Settings.Default.settingOnlyAlert = 0;
+                FormStkywControlPanelCallInV2 main = new FormStkywControlPanelCallInV2(loginUser.ID, loginUser.Name, loginCompany.ID, directions);
                 //main.userId = loginUser.ID;
                 //main.userName = loginUser.Name;
                 //main.companyID = loginCompany.ID;
                 logForm.Hide();
                 main.Show();
-            }
-            else if (verified == true && alarmOnly == true)
-            {
 
-                StkywControlPanelLight.Properties.Settings.Default.settingOnlyAlert = 1;
-                FormAlarmOnly main2 = new FormAlarmOnly(loginUser.ID, loginUser.Name, loginCompany.ID);
-                logForm.Hide();
-                main2.Show();
+                wadAliasSelector was = new wadAliasSelector(loginUser.ID, loginUser);
+                was.Show();
             }
             else
             {
@@ -203,6 +196,8 @@ namespace StkywControlPanelLight
         public DateTime? LastActive { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public int CompanyID { get; set; }
+        public string Directions { get; set; }
+        public string ChosenLayout { get; set; }
     }
     public class vw_EmployeeLogin
     {
@@ -211,6 +206,7 @@ namespace StkywControlPanelLight
         public string Username { get; set; }
         public int CompanyID { get; set; }
         public byte[] PasswordEncrypted { get; set; }
+        public string wadAliasName { get; set; }
     }
     public class Company
     {
