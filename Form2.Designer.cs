@@ -83,7 +83,7 @@ namespace StkywControlPanelCallIn
             // pictureBox1
             // 
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.pictureBox1.Image = Properties.Resources.Sorrytokeepyouwaiting_circle__62px;
+            this.pictureBox1.Image = global::StkywControlPanelCallIn.Properties.Resources._62px;
             this.pictureBox1.Location = new System.Drawing.Point(239, 12);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(62, 62);
