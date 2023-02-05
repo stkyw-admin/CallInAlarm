@@ -110,12 +110,15 @@ namespace StkywControlPanelCallInAlarm
             this.Controls.Add(this.textBoxCallInNew);
             this.Controls.Add(this.buttonCallInText);
             this.Controls.Add(this.labelAlertOther);
+            this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::StkywControlPanelCallInAlarm.Properties.Settings.Default, "Location", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Location = global::StkywControlPanelCallInAlarm.Properties.Settings.Default.Location;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormStkywControlPanelCallInV2";
             this.Text = "STKYW Control Panel";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormStkywControlPanelCallInV2_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormStkywControlPanelCallInV2_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

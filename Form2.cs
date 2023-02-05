@@ -405,5 +405,10 @@ namespace StkywControlPanelCallInAlarm
             else
                 this.BackColor = Color.Red;
         }
+
+        private void FormStkywControlPanelCallInV2_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Properties.Settings.Default.Save();
+        }
     }
 }
