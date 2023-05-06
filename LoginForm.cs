@@ -110,15 +110,15 @@ namespace StkywControlPanelCallInAlarm
             if (verified == true)
             {
                 Properties.Settings.Default.settingOnlyAlert = 0;
-                FormStkywControlPanelCallInV2 main = new FormStkywControlPanelCallInV2(loginUser.ID, loginUser.Name, loginCompany.ID, directions);
+                FormStkywControlPanelCallInV2 main = new FormStkywControlPanelCallInV2(loginUser.ID, loginUser.Name, loginCompany.ID, directions, loginUser.wadAliasName);
                 //main.userId = loginUser.ID;
                 //main.userName = loginUser.Name;
                 //main.companyID = loginCompany.ID;
                 logForm.Hide();
                 main.Show();
 
-                wadAliasSelector was = new wadAliasSelector(loginUser.ID, loginUser);
-                was.Show();
+                //wadAliasSelector was = new wadAliasSelector(loginUser.ID, loginUser);
+                //was.Show();
             }
             else
             {

@@ -142,5 +142,40 @@ namespace StkywControlPanelCallInAlarm.Properties {
                 this["Location"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string settingWadAlias {
+            get {
+                return ((string)(this["settingWadAlias"]));
+            }
+            set {
+                this["settingWadAlias"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime settingLastCheckForMessages {
+            get {
+                return ((global::System.DateTime)(this["settingLastCheckForMessages"]));
+            }
+            set {
+                this["settingLastCheckForMessages"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int settingRequestAidFrom {
+            get {
+                return ((int)(this["settingRequestAidFrom"]));
+            }
+            set {
+                this["settingRequestAidFrom"] = value;
+            }
+        }
     }
 }
