@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Media;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -25,6 +26,7 @@ namespace StkywControlPanelCallInAlarm
         public string chatOpenCloseStatus;
         public int userId;
         public string userName;
+        public string nameOfUser;
         public int companyID;
         public string directions;
         static HttpClient client = new HttpClient();
@@ -89,7 +91,7 @@ namespace StkywControlPanelCallInAlarm
 
             InitializeComponent();
             Cursor.Current = Cursors.Default;
-            timerAutoDelay.Start();
+            //timerAutoDelay.Start();
             timerOthersAlert.Start();
             labelAlertOther.Dock = DockStyle.Fill;
             Properties.Settings.Default.settingInitialDelay = 0;
@@ -112,11 +114,13 @@ namespace StkywControlPanelCallInAlarm
 
             chatOpenCloseStatus = "Closed";
             this.Size = new Size(250, 107);
-            buttonOpenCloseChat.Text = "Åbn Chat";
+            //buttonOpenCloseChat.Text = "Åbn Chat";
 
             buttonAssistComingAsap.Visible = false;
             buttonAssistNoTime.Visible = false;
             Properties.Settings.Default.settingRequestAidFrom = 0;
+            buttonAssistReminder.BackColor = Color.Orange;
+            textBoxAssistReminder.BackColor = Color.Orange;
         }
         static void UpdateWadLayout(EmployeeCurrentUsage user, string comboChoice)
         {
@@ -404,6 +408,7 @@ namespace StkywControlPanelCallInAlarm
             if (timerFlashing.Enabled == false && timerAssist.Enabled == false)
             {
                 this.BackColor = ColorTranslator.FromHtml("#ffffff");//SystemColors.Control;
+                SystemSounds.Exclamation.Play();
             }
         }
         static async Task performAlertCheck(int companyID, System.Windows.Forms.Label label, EmployeeCurrentUsage user, System.Windows.Forms.Timer timer, System.Windows.Forms.Timer timerAssist)
@@ -436,6 +441,7 @@ namespace StkywControlPanelCallInAlarm
                 else if (queryItem.RequestedAidFrom == user.ID)
                 {
                     foundHelpRequest = queryItem.ID;
+                    Properties.Settings.Default.settingRequestAidFrom = queryItem.ID;
                 }
             }
             if (foundAlertCollegue > 0)
@@ -492,7 +498,7 @@ namespace StkywControlPanelCallInAlarm
                 //Stuff that happens when the chat window opens
                 this.Size = new Size(250, 293);
                 panelChat.Visible = true;
-                if (buttonOpenCloseChat.Text == "Åbn Chat")
+                //if (buttonOpenCloseChat.Text == "Åbn Chat")
                     FillComboBoxChatList();
 
                 timerRefreshMessage.Enabled = true;
@@ -500,9 +506,11 @@ namespace StkywControlPanelCallInAlarm
                 //timerRefreshMessageWhileClosed.Enabled = false;
                 timerRefreshMessageWhileClosed.Interval = 60000;
                 buttonOpenCloseChat.BackColor = SystemColors.Control;
-                buttonOpenCloseChat.Text = "Luk Chat";
+                //buttonOpenCloseChat.Text = "Luk Chat";
 
                 chatOpenCloseStatus = "Open";
+
+                timerAssistFlashing.Stop();
             }
             else
             {
@@ -560,18 +568,19 @@ namespace StkywControlPanelCallInAlarm
             chatList = await GetChatMessagesList(apiPathChatMessage);
             IEnumerable<ChatMessage> query;
             IEnumerable<ChatMessage> query2;
+            IEnumerable<ChatMessage> filter;
             if (chatRecipient > -1)
             {
                 query = chatList.Where(s => s.CompanyID == companyID && s.ToEmployeeID == chatRecipient && s.FromEmployeeID == userId);
                 query2 = chatList.Where(s => s.CompanyID == companyID && s.FromEmployeeID == chatRecipient && s.ToEmployeeID == userId);
+                filter = query.Union(query2);
             }
             else
             {
                 query = chatList.Where(s => s.CompanyID == companyID && s.ToEmployeeID == chatRecipient);
-                query2 = chatList.Where(s => s.CompanyID == companyID && s.ToEmployeeID == chatRecipient);
+                filter = query;
             }
             List<ChatMessage> correctMessages = new List<ChatMessage>();
-            IEnumerable<ChatMessage> filter = query.Union(query2);
             foreach (ChatMessage queryItem in filter)
             {
                 correctMessages.Add(queryItem);
@@ -648,10 +657,16 @@ namespace StkywControlPanelCallInAlarm
             IEnumerable<ChatMessage> query2 = chatList.Where(s => s.CompanyID == companyID && s.ToEmployeeID == allUsers && s.SysRowCreated >= Properties.Settings.Default.settingLastCheckForMessages);
             List<ChatMessage> correctMessages = new List<ChatMessage>();
             IEnumerable<ChatMessage> filter = query.Union(query2);
+            string latestMsg = "";
+
             foreach (ChatMessage queryItem in filter)
             {
                 correctMessages.Add(queryItem);
 
+                if (latestMsg == "")
+                {
+                    latestMsg = queryItem.Text;
+                }
                 if (recipient == "Alle")
                 {
                     otherChatThread = true;
@@ -662,10 +677,11 @@ namespace StkywControlPanelCallInAlarm
                 }
             }
 
-            if (correctMessages.Count > 0 && otherChatThread == true)
+            if (correctMessages.Count > 0 && otherChatThread == true && latestMsg != "Jeg har ikke tid lige nu." && latestMsg != "Jeg kommer snarest muligt." && latestMsg.Contains("har anmodet om hjælp fra") == false)
             {
                 buttonOpenCloseChat.BackColor = Color.Orange;
                 buttonOpenCloseChat.Text = "Ny besked";
+                timerAssistFlashing.Start();
             }
             List<ChatMessage> orderedList = correctMessages.OrderByDescending(x => x.SysRowCreated).ToList();
             List<ChatMessage> latestTwentyChats = new List<ChatMessage>();
@@ -749,7 +765,7 @@ namespace StkywControlPanelCallInAlarm
                 {
                     //chatBoxStringBuilder += sender + ": " + ch.Text + Environment.NewLine;
                 }
-                else
+                else if (latestMsg != "Jeg har ikke tid lige nu." && latestMsg != "Jeg kommer snarest muligt." && latestMsg.Contains("har anmodet om hjælp fra") == false)
                 {
                     string fromUser = "";
 
@@ -804,7 +820,10 @@ namespace StkywControlPanelCallInAlarm
                 }
             }
             if (chatOpenCloseStatus == "Open" && check == true)
-                buttonOpenCloseChat.Text = "Luk Chat";
+            {
+                //buttonOpenCloseChat.Text = "Luk Chat";
+                timerAssistFlashing.Stop();
+            }
             comboBoxChatUsersList.SelectedIndexChanged += comboBoxChatUsersList_SelectedIndexChanged;
             ReadChat(Convert.ToInt32(recipientID), user);
         }
@@ -848,6 +867,10 @@ namespace StkywControlPanelCallInAlarm
                     comboBoxChatUsersList.Items.Add(queryItem.Name);
                     elComboBoxChatUsersList.Add(queryItem);
                 }
+                else
+                {
+                    nameOfUser = queryItem.Name;
+                }
             }
             comboBoxChatUsersList.SelectedIndex = 0;
         }
@@ -874,6 +897,16 @@ namespace StkywControlPanelCallInAlarm
                     user.ModifiedDate = DateTime.Now;
                     UpdateEmployee(user, apiPathUserFinal);
                     helpFromUser = recipientID;
+
+                    ChatMessage chatMessage = new ChatMessage();
+                    chatMessage.CompanyID = companyID;
+                    chatMessage.FromEmployeeID = userId;
+                    chatMessage.ToEmployeeID = Convert.ToInt32(recipientID); ;
+                    chatMessage.Text = nameOfUser + " har anmodet om hjælp fra " + recipient + ".";
+                    chatMessage.SysRowCreated = DateTime.Now;
+
+                    PostChatMessage(chatMessage, apiPathChatMessage);
+                    ReadChat(Convert.ToInt32(recipientID), user);
                 }
                 //else if (comboBoxChatUsersList.SelectedItem.ToString() != "Alle" && helpFromUser != "")
                 //{
@@ -895,53 +928,113 @@ namespace StkywControlPanelCallInAlarm
                 err += "";
             }
         }
-
         private void timerAssist_Tick(object sender, EventArgs e)
         {
-            int foundHelpRequest = 0;
-            IEnumerable<vw_EmployeeLogin> query = allEmployees.Where(s => s.CompanyID == companyID);
-            List<vw_EmployeeLogin> CompanyEmployees = new List<vw_EmployeeLogin>();
-            foreach (vw_EmployeeLogin queryItem in query)
+            if (sw.IsRunning == false)
             {
-                CompanyEmployees.Add(queryItem);
+                sw.Reset();
+                sw.Start();
             }
-            IEnumerable<EmployeeCurrentUsage> ecuQuery = ecuList.Where(s => s.CompanyID == companyID && s.ID != user.ID);
-            List<EmployeeCurrentUsage> OnlyCollegues = new List<EmployeeCurrentUsage>();
-            foreach (EmployeeCurrentUsage qi in ecuQuery)
+            if (sw.ElapsedMilliseconds < 60000)
             {
-                OnlyCollegues.Add(qi);
-            }
-            foreach (EmployeeCurrentUsage queryItem in OnlyCollegues)
-            {
-                if (queryItem.RequestedAidFrom == user.ID)
+                int foundHelpRequest = 0;
+                IEnumerable<vw_EmployeeLogin> query = allEmployees.Where(s => s.CompanyID == companyID);
+                List<vw_EmployeeLogin> CompanyEmployees = new List<vw_EmployeeLogin>();
+                foreach (vw_EmployeeLogin queryItem in query)
                 {
-                    foundHelpRequest = queryItem.ID;
+                    CompanyEmployees.Add(queryItem);
                 }
-            }
-            helpUser = new vw_EmployeeLogin();
-            for (int i = 0; i < CompanyEmployees.Count; i++)
-            {
-                if (CompanyEmployees[i].ID == foundHelpRequest)
+                IEnumerable<EmployeeCurrentUsage> ecuQuery = ecuList.Where(s => s.CompanyID == companyID && s.ID != user.ID);
+                List<EmployeeCurrentUsage> OnlyCollegues = new List<EmployeeCurrentUsage>();
+                foreach (EmployeeCurrentUsage qi in ecuQuery)
                 {
-                    helpUser = CompanyEmployees[i];
+                    OnlyCollegues.Add(qi);
                 }
+                foreach (EmployeeCurrentUsage queryItem in OnlyCollegues)
+                {
+                    if (queryItem.RequestedAidFrom == user.ID)
+                    {
+                        foundHelpRequest = queryItem.ID;
+                    }
+                }
+                helpUser = new vw_EmployeeLogin();
+                for (int i = 0; i < CompanyEmployees.Count; i++)
+                {
+                    if (CompanyEmployees[i].ID == foundHelpRequest)
+                    {
+                        helpUser = CompanyEmployees[i];
+                    }
+                }
+
+                labelAlertOther.BringToFront();
+                labelAlertOther.Visible = true;
+                labelAlertOther.Text = helpUser.Name + " anmoder om din tilstedeværelse.";
+                labelAlertOther.TextAlign = ContentAlignment.TopCenter;
+
+                helpFromUser = helpUser.Name;
+
+                this.BackColor = Color.LightGreen;
+                buttonAssistComingAsap.Visible = true;
+                buttonAssistNoTime.Visible = true;
+                buttonAssistComingAsap.BringToFront();
+                buttonAssistNoTime.BringToFront();
+                buttonAssistComingAsap.Location = new Point(50, 134);
+                buttonAssistNoTime.Location = new Point(50, 104);
+                buttonAssistComingAsap.Size = new Size(141, 28);
+                buttonAssistNoTime.Size = new Size(141, 28);
+                this.Size = new Size(250, 293);
+
             }
+            else
+            {
+                this.Size = new Size(250, 107);
+                this.BackColor = Color.White;
+                labelAlertOther.SendToBack();
+                labelAlertOther.Visible = false;
+                buttonAssistComingAsap.Visible = false;
+                buttonAssistNoTime.Visible = false;
 
-            this.Size = new Size(250, 293);
-            labelAlertOther.BringToFront();
-            labelAlertOther.Visible = true;
-            labelAlertOther.Text = helpUser.Name + " anmoder om din tilstedeværelse.";
-            labelAlertOther.TextAlign = ContentAlignment.TopCenter;
+                sw.Stop();
+                timerAssist.Stop();
 
-            this.BackColor = Color.LightGreen;
-            buttonAssistComingAsap.Visible = true;
-            buttonAssistNoTime.Visible = true;
-            buttonAssistComingAsap.BringToFront();
-            buttonAssistNoTime.BringToFront();
-            buttonAssistComingAsap.Location = new Point(50, 134);
-            buttonAssistNoTime.Location = new Point(50, 104);
+                EmployeeCurrentUsage ecu = new EmployeeCurrentUsage();
+                IEnumerable<vw_EmployeeLogin> query = allEmployees.Where(s => s.CompanyID == companyID);
+                List<vw_EmployeeLogin> CompanyEmployees = new List<vw_EmployeeLogin>();
+                foreach (vw_EmployeeLogin queryItem in query)
+                {
+                    CompanyEmployees.Add(queryItem);
+                }
+                IEnumerable<EmployeeCurrentUsage> ecuQuery = ecuList.Where(s => s.CompanyID == companyID && s.ID == Properties.Settings.Default.settingRequestAidFrom);
+                List<EmployeeCurrentUsage> OnlyCollegues = new List<EmployeeCurrentUsage>();
+                foreach (EmployeeCurrentUsage qi in ecuQuery)
+                {
+                    OnlyCollegues.Add(qi);
+                }
+                foreach (EmployeeCurrentUsage queryItem in OnlyCollegues)
+                {
+                    if (queryItem.RequestedAidFrom == user.ID)
+                    {
+                        ecu = queryItem;
+                    }
+                }
+
+                string apiPathUserFinal = apiPathEmployee + Properties.Settings.Default.settingRequestAidFrom;
+
+                ecu.RequestedAidFrom = 0;
+                ecu.ModifiedDate = DateTime.Now;
+                UpdateEmployee(ecu, apiPathUserFinal);
+
+                ChatMessage chatMessage = new ChatMessage();
+                chatMessage.CompanyID = companyID;
+                chatMessage.FromEmployeeID = userId;
+                chatMessage.ToEmployeeID = Properties.Settings.Default.settingRequestAidFrom;
+                chatMessage.Text = "Tilkaldet er ikke besvaret.";
+                chatMessage.SysRowCreated = DateTime.Now;
+
+                PostChatMessage(chatMessage, apiPathChatMessage);
+                ReadChat(Properties.Settings.Default.settingRequestAidFrom, user);
+            }
         }
-
         private void buttonAssistNoTime_Click(object sender, EventArgs e)
         {
             if (timerOthersAlert.Enabled == false)
@@ -975,6 +1068,17 @@ namespace StkywControlPanelCallInAlarm
             buttonAssistComingAsap.Visible = false;
             buttonAssistNoTime.Visible = false;
             timerOthersAlert.Start();
+
+            buttonAssistReminder.Visible = true;
+            textBoxAssistReminder.Visible = true;
+            buttonAssistReminder.Location = new Point(84, 41);
+            textBoxAssistReminder.Location = new Point(84, 13);
+            buttonAssistReminder.Size = new Size(170, 22);
+            textBoxAssistReminder.Size = new Size(170, 22);
+
+            textBoxAssistReminder.Text = "Husk at gå til " + helpFromUser;
+            buttonAssistReminder.Text = "OK";
+
             if (chatOpenCloseStatus == "Closed")
                 this.Size = new Size(250, 107);
         }
@@ -1036,6 +1140,20 @@ namespace StkywControlPanelCallInAlarm
             {
                 textBoxWriteChatMessage.Text = "";
             }
+        }
+
+        private void buttonAssistReminder_Click(object sender, EventArgs e)
+        {
+            buttonAssistReminder.Visible = false;
+            textBoxAssistReminder.Visible = false;
+        }
+
+        private void timerAssistFlashing_Tick(object sender, EventArgs e)
+        {
+            if (buttonOpenCloseChat.BackColor == SystemColors.Control)
+                buttonOpenCloseChat.BackColor = Color.Orange;
+            else
+                buttonOpenCloseChat.BackColor = SystemColors.Control;
         }
     }
 }
