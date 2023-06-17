@@ -36,7 +36,6 @@ namespace StkywControlPanelCallInAlarm
             this.timerFlashing = new System.Windows.Forms.Timer(this.components);
             this.timerOthersAlert = new System.Windows.Forms.Timer(this.components);
             this.labelAlertOther = new System.Windows.Forms.Label();
-            this.timerAutoDelay = new System.Windows.Forms.Timer(this.components);
             this.buttonCallInText = new System.Windows.Forms.Button();
             this.textBoxCallInNew = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -56,8 +55,17 @@ namespace StkywControlPanelCallInAlarm
             this.buttonAssistReminder = new System.Windows.Forms.Button();
             this.textBoxAssistReminder = new System.Windows.Forms.TextBox();
             this.timerAssistFlashing = new System.Windows.Forms.Timer(this.components);
+            this.buttonAssistRightAway = new System.Windows.Forms.Button();
+            this.timerHelpFlash = new System.Windows.Forms.Timer(this.components);
+            this.panelChatNotification = new System.Windows.Forms.Panel();
+            this.textBoxCNMessage = new System.Windows.Forms.TextBox();
+            this.buttonCNDismiss = new System.Windows.Forms.Button();
+            this.textBoxCNReply = new System.Windows.Forms.TextBox();
+            this.labelCNShowHideMessage = new System.Windows.Forms.Label();
+            this.labelCNSender = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelChat.SuspendLayout();
+            this.panelChatNotification.SuspendLayout();
             this.SuspendLayout();
             // 
             // timerFlashing
@@ -279,12 +287,94 @@ namespace StkywControlPanelCallInAlarm
             this.timerAssistFlashing.Interval = 1000;
             this.timerAssistFlashing.Tick += new System.EventHandler(this.timerAssistFlashing_Tick);
             // 
+            // buttonAssistRightAway
+            // 
+            this.buttonAssistRightAway.Location = new System.Drawing.Point(143, 47);
+            this.buttonAssistRightAway.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonAssistRightAway.Name = "buttonAssistRightAway";
+            this.buttonAssistRightAway.Size = new System.Drawing.Size(141, 28);
+            this.buttonAssistRightAway.TabIndex = 64;
+            this.buttonAssistRightAway.Text = "Er på vej";
+            this.buttonAssistRightAway.UseVisualStyleBackColor = true;
+            this.buttonAssistRightAway.Click += new System.EventHandler(this.buttonAssistRightAway_Click);
+            // 
+            // timerHelpFlash
+            // 
+            this.timerHelpFlash.Interval = 2000;
+            this.timerHelpFlash.Tick += new System.EventHandler(this.timerHelpFlash_Tick);
+            // 
+            // panelChatNotification
+            // 
+            this.panelChatNotification.BackColor = System.Drawing.Color.Goldenrod;
+            this.panelChatNotification.Controls.Add(this.textBoxCNMessage);
+            this.panelChatNotification.Controls.Add(this.buttonCNDismiss);
+            this.panelChatNotification.Controls.Add(this.textBoxCNReply);
+            this.panelChatNotification.Controls.Add(this.labelCNShowHideMessage);
+            this.panelChatNotification.Controls.Add(this.labelCNSender);
+            this.panelChatNotification.Location = new System.Drawing.Point(-4, 1);
+            this.panelChatNotification.Name = "panelChatNotification";
+            this.panelChatNotification.Size = new System.Drawing.Size(325, 154);
+            this.panelChatNotification.TabIndex = 68;
+            this.panelChatNotification.Visible = false;
+            // 
+            // textBoxCNMessage
+            // 
+            this.textBoxCNMessage.Enabled = false;
+            this.textBoxCNMessage.Location = new System.Drawing.Point(6, 34);
+            this.textBoxCNMessage.Multiline = true;
+            this.textBoxCNMessage.Name = "textBoxCNMessage";
+            this.textBoxCNMessage.Size = new System.Drawing.Size(146, 74);
+            this.textBoxCNMessage.TabIndex = 5;
+            this.textBoxCNMessage.Visible = false;
+            // 
+            // buttonCNDismiss
+            // 
+            this.buttonCNDismiss.Location = new System.Drawing.Point(158, 110);
+            this.buttonCNDismiss.Name = "buttonCNDismiss";
+            this.buttonCNDismiss.Size = new System.Drawing.Size(132, 23);
+            this.buttonCNDismiss.TabIndex = 4;
+            this.buttonCNDismiss.Text = "Svar senere";
+            this.buttonCNDismiss.UseVisualStyleBackColor = true;
+            this.buttonCNDismiss.Click += new System.EventHandler(this.buttonCNDismiss_Click);
+            // 
+            // textBoxCNReply
+            // 
+            this.textBoxCNReply.Location = new System.Drawing.Point(158, 34);
+            this.textBoxCNReply.Multiline = true;
+            this.textBoxCNReply.Name = "textBoxCNReply";
+            this.textBoxCNReply.Size = new System.Drawing.Size(132, 72);
+            this.textBoxCNReply.TabIndex = 3;
+            this.textBoxCNReply.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxCNReply_KeyDown);
+            this.textBoxCNReply.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxCNReply_KeyUp);
+            // 
+            // labelCNShowHideMessage
+            // 
+            this.labelCNShowHideMessage.AutoSize = true;
+            this.labelCNShowHideMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelCNShowHideMessage.Location = new System.Drawing.Point(7, 117);
+            this.labelCNShowHideMessage.Name = "labelCNShowHideMessage";
+            this.labelCNShowHideMessage.Size = new System.Drawing.Size(75, 16);
+            this.labelCNShowHideMessage.TabIndex = 1;
+            this.labelCNShowHideMessage.Text = "Vis besked";
+            this.labelCNShowHideMessage.Click += new System.EventHandler(this.labelCNShowHideMessage_Click);
+            // 
+            // labelCNSender
+            // 
+            this.labelCNSender.AutoSize = true;
+            this.labelCNSender.Location = new System.Drawing.Point(8, 9);
+            this.labelCNSender.Name = "labelCNSender";
+            this.labelCNSender.Size = new System.Drawing.Size(97, 16);
+            this.labelCNSender.TabIndex = 0;
+            this.labelCNSender.Text = "Ny besked fra: ";
+            // 
             // FormStkywControlPanelCallInV2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(312, 313);
+            this.Controls.Add(this.panelChatNotification);
+            this.Controls.Add(this.buttonAssistRightAway);
             this.Controls.Add(this.buttonAssistReminder);
             this.Controls.Add(this.textBoxAssistReminder);
             this.Controls.Add(this.buttonAssistNoTime);
@@ -308,6 +398,8 @@ namespace StkywControlPanelCallInAlarm
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panelChat.ResumeLayout(false);
             this.panelChat.PerformLayout();
+            this.panelChatNotification.ResumeLayout(false);
+            this.panelChatNotification.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -317,7 +409,6 @@ namespace StkywControlPanelCallInAlarm
         private System.Windows.Forms.Timer timerFlashing;
         private System.Windows.Forms.Timer timerOthersAlert;
         private System.Windows.Forms.Label labelAlertOther;
-        private System.Windows.Forms.Timer timerAutoDelay;
         private System.Windows.Forms.Button buttonCallInText;
         private System.Windows.Forms.TextBox textBoxCallInNew;
         private System.Windows.Forms.PictureBox pictureBox1;
@@ -337,5 +428,13 @@ namespace StkywControlPanelCallInAlarm
         private System.Windows.Forms.Button buttonAssistReminder;
         private System.Windows.Forms.TextBox textBoxAssistReminder;
         private System.Windows.Forms.Timer timerAssistFlashing;
+        private System.Windows.Forms.Button buttonAssistRightAway;
+        private System.Windows.Forms.Timer timerHelpFlash;
+        private System.Windows.Forms.Panel panelChatNotification;
+        private System.Windows.Forms.TextBox textBoxCNMessage;
+        private System.Windows.Forms.Button buttonCNDismiss;
+        private System.Windows.Forms.TextBox textBoxCNReply;
+        private System.Windows.Forms.Label labelCNShowHideMessage;
+        private System.Windows.Forms.Label labelCNSender;
     }
 }
