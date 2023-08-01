@@ -42,6 +42,8 @@ namespace StkywControlPanelCallInAlarm
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
+            this.Enabled = false;
+            timerLoginTime.Start();
             string username = textBoxUsername.Text;
             string password = textBoxPassword.Text;
             string company = textBoxCompany.Text;
@@ -58,12 +60,12 @@ namespace StkywControlPanelCallInAlarm
                 Properties.Settings.Default.Save();
             }
             
-            PerformLogin(sender, e, username, password, company, f, directions);
+            PerformLogin(sender, e, username, password, company, f, directions, timerLoginTime);
 
             //Test
             //UserID = 8;
         }
-        static async Task PerformLogin(object sender, EventArgs e, string username, string password, string company, Form logForm, string directions)
+        static async Task PerformLogin(object sender, EventArgs e, string username, string password, string company, Form logForm, string directions, Timer timerLoginTime)
         {
             allEmployees = await GetEmployeeList(apiPathlogin);
             allCompanies = await GetCompanyList(apiPathCompany);
@@ -114,6 +116,7 @@ namespace StkywControlPanelCallInAlarm
                 //main.userId = loginUser.ID;
                 //main.userName = loginUser.Name;
                 //main.companyID = loginCompany.ID;
+                timerLoginTime.Stop();
                 logForm.Hide();
                 main.Show();
 
@@ -166,6 +169,12 @@ namespace StkywControlPanelCallInAlarm
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void timerLoginTime_Tick(object sender, EventArgs e)
+        {
+            MessageBox.Show("Vi kunne ikke logge dig på lige nu, prøv igen senere.");
+            this.Enabled = true;
         }
     }
 

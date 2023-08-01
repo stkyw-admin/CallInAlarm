@@ -96,7 +96,7 @@ namespace StkywControlPanelCallInAlarm
             user.CompanyID = companyID; // 1006;
             user.DelayInMinutes = 0;
             user.Alarm = false;
-            user.Away = false;
+            user.Away = true;
             user.CpUsed = "CallIn Alarm Client";
             user.LastActive = DateTime.Now;
             user.ModifiedDate = DateTime.Now;
@@ -137,6 +137,8 @@ namespace StkywControlPanelCallInAlarm
             textBoxAssistReminder.BackColor = Color.Orange;
             sizeHeightBeforeAssist = this.Size.Height;
             sizeWidthBeforeAssist = this.Size.Width;
+
+            timerOffScreen.Start();
         }
         static void UpdateWadLayout(EmployeeCurrentUsage user, string comboChoice)
         {
@@ -446,11 +448,14 @@ namespace StkywControlPanelCallInAlarm
                 OnlyCollegues.Add(qi);
             }
 
+            string alertLocation = "(ukendt)";
             foreach (EmployeeCurrentUsage queryItem in OnlyCollegues)
             {
                 if (queryItem.Alarm == true)
                 {
                     foundAlertCollegue = queryItem.ID;
+                    if (queryItem.Directions != null)
+                        alertLocation = queryItem.Directions.ToString();
                 }
                 else if (queryItem.RequestedAidFrom == user.ID)
                 {
@@ -470,7 +475,7 @@ namespace StkywControlPanelCallInAlarm
                 }
                 timer.Start();
                 label.Visible = true;
-                label.Text = alertUser.Name + " har brug for hjælp!";
+                label.Text = alertUser.Name + " har brug for hjælp!" + Environment.NewLine + "Gå til " + alertLocation;
                 label.BringToFront();
             }
             else if (foundHelpRequest > 0)
@@ -646,7 +651,7 @@ namespace StkywControlPanelCallInAlarm
                         }
                     }
                 }
-                if (ch.Text == "Jeg har ikke tid lige nu." || ch.Text == "Jeg kommer snarest muligt." || ch.Text == "Jeg er på vej.")
+                if (ch.Text == "Jeg har ikke tid lige nu." || ch.Text == "Jeg kommer snarest muligt." || ch.Text == "Jeg er på vej." || ch.Text == "Tilkaldet er ikke besvaret.")
                 {
                     userTemp.RequestedAidFrom = 0;
                     Properties.Settings.Default.settingRequestAidFrom = 0;
@@ -724,7 +729,7 @@ namespace StkywControlPanelCallInAlarm
             {
                 if (correctMessages.Count > 0 && (otherChatThread == true || alleChatThread == true)
                     && latestMsg != "Jeg har ikke tid lige nu." && latestMsg != "Jeg kommer snarest muligt."
-                    && latestMsg != "Jeg er på vej." && latestMsg.Contains("har anmodet om hjælp fra") == false
+                    && latestMsg != "Jeg er på vej." && latestMsg != "Tilkaldet er ikke besvaret." && latestMsg.Contains("har anmodet om hjælp fra") == false
                     && onlyFromMyself == false)
                 {
                     buttonOpenCloseChat.BackColor = Color.Orange;
@@ -736,7 +741,7 @@ namespace StkywControlPanelCallInAlarm
             {
                 if (correctMessages.Count > 0
                     && latestMsg != "Jeg har ikke tid lige nu." && latestMsg != "Jeg kommer snarest muligt."
-                    && latestMsg != "Jeg er på vej." && latestMsg.Contains("har anmodet om hjælp fra") == false
+                    && latestMsg != "Jeg er på vej." && latestMsg != "Tilkaldet er ikke besvaret." && latestMsg.Contains("har anmodet om hjælp fra") == false
                     && onlyFromMyself == false)
                 {
                     buttonOpenCloseChat.BackColor = Color.Orange;
@@ -829,7 +834,7 @@ namespace StkywControlPanelCallInAlarm
                 {
                 }
                 else if (latestMsg != "Jeg har ikke tid lige nu." && latestMsg != "Jeg kommer snarest muligt."
-                      && latestMsg != "Jeg er på vej." && latestMsg.Contains("har anmodet om hjælp fra") == false)
+                      && latestMsg != "Jeg er på vej." && latestMsg != "Tilkaldet er ikke besvaret." && latestMsg.Contains("har anmodet om hjælp fra") == false)
                 {
                     string fromUser = "";
 
@@ -1366,6 +1371,35 @@ namespace StkywControlPanelCallInAlarm
             panelChatNotification.Visible = false;
             panelChatNotification.SendToBack();
             this.Size = new Size(250, 107);
+        }
+
+        public bool IsOnScreen(Form form)
+        {
+            Screen[] screens = Screen.AllScreens;
+            foreach (Screen screen in screens)
+            {
+                int width = screen.WorkingArea.Width;
+                int workWidth = width - 10;
+                Point formTopLeft = new Point(form.Left, form.Top);
+
+                if (workWidth > formTopLeft.X)//(screen.WorkingArea.Contains(formTopLeft))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void timerOffScreen_Tick(object sender, EventArgs e)
+        {
+            bool reposition = IsOnScreen(this);
+            if (reposition == false)
+            {
+                this.Location = new Point(100, 100);
+            }
+            timerOffScreen.Stop();
+            timerOffScreen.Enabled = false;
         }
     }
 }

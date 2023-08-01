@@ -63,6 +63,7 @@ namespace StkywControlPanelCallInAlarm
             this.textBoxCNReply = new System.Windows.Forms.TextBox();
             this.labelCNShowHideMessage = new System.Windows.Forms.Label();
             this.labelCNSender = new System.Windows.Forms.Label();
+            this.timerOffScreen = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelChat.SuspendLayout();
             this.panelChatNotification.SuspendLayout();
@@ -323,6 +324,7 @@ namespace StkywControlPanelCallInAlarm
             this.textBoxCNMessage.Location = new System.Drawing.Point(6, 34);
             this.textBoxCNMessage.Multiline = true;
             this.textBoxCNMessage.Name = "textBoxCNMessage";
+            this.textBoxCNMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBoxCNMessage.Size = new System.Drawing.Size(146, 74);
             this.textBoxCNMessage.TabIndex = 5;
             this.textBoxCNMessage.Visible = false;
@@ -366,6 +368,11 @@ namespace StkywControlPanelCallInAlarm
             this.labelCNSender.Size = new System.Drawing.Size(97, 16);
             this.labelCNSender.TabIndex = 0;
             this.labelCNSender.Text = "Ny besked fra: ";
+            // 
+            // timerOffScreen
+            // 
+            this.timerOffScreen.Interval = 1000;
+            this.timerOffScreen.Tick += new System.EventHandler(this.timerOffScreen_Tick);
             // 
             // FormStkywControlPanelCallInV2
             // 
@@ -436,5 +443,6 @@ namespace StkywControlPanelCallInAlarm
         private System.Windows.Forms.TextBox textBoxCNReply;
         private System.Windows.Forms.Label labelCNShowHideMessage;
         private System.Windows.Forms.Label labelCNSender;
+        private System.Windows.Forms.Timer timerOffScreen;
     }
 }

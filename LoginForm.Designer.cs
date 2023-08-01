@@ -29,6 +29,7 @@ namespace StkywControlPanelCallInAlarm
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxUsername = new System.Windows.Forms.TextBox();
@@ -41,6 +42,7 @@ namespace StkywControlPanelCallInAlarm
             this.checkBoxRememberMe = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.textBoxLoginDirections = new System.Windows.Forms.TextBox();
+            this.timerLoginTime = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // label1
@@ -153,6 +155,11 @@ namespace StkywControlPanelCallInAlarm
             this.textBoxLoginDirections.Size = new System.Drawing.Size(132, 56);
             this.textBoxLoginDirections.TabIndex = 4;
             // 
+            // timerLoginTime
+            // 
+            this.timerLoginTime.Interval = 20000;
+            this.timerLoginTime.Tick += new System.EventHandler(this.timerLoginTime_Tick);
+            // 
             // LoginForm
             // 
             this.AcceptButton = this.buttonLogin;
@@ -194,5 +201,6 @@ namespace StkywControlPanelCallInAlarm
         private System.Windows.Forms.CheckBox checkBoxRememberMe;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBoxLoginDirections;
+        private System.Windows.Forms.Timer timerLoginTime;
     }
 }
