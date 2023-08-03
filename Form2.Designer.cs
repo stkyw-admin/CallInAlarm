@@ -320,10 +320,10 @@ namespace StkywControlPanelCallInAlarm
             // 
             // textBoxCNMessage
             // 
-            this.textBoxCNMessage.Enabled = false;
             this.textBoxCNMessage.Location = new System.Drawing.Point(6, 34);
             this.textBoxCNMessage.Multiline = true;
             this.textBoxCNMessage.Name = "textBoxCNMessage";
+            this.textBoxCNMessage.ReadOnly = true;
             this.textBoxCNMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBoxCNMessage.Size = new System.Drawing.Size(146, 74);
             this.textBoxCNMessage.TabIndex = 5;
