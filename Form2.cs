@@ -432,6 +432,7 @@ namespace StkywControlPanelCallInAlarm
             if (timerFlashing.Enabled == false && timerAssist.Enabled == false)
             {
                 this.BackColor = ColorTranslator.FromHtml("#ffffff");//SystemColors.Control;
+                this.Size = new Size(250, 107);
             }
         }
         static async Task performAlertCheck(int companyID, System.Windows.Forms.Label label, EmployeeCurrentUsage user, System.Windows.Forms.Timer timer, System.Windows.Forms.Timer timerAssist)
@@ -502,6 +503,8 @@ namespace StkywControlPanelCallInAlarm
                 this.BackColor = Color.Red;
                 SystemSounds.Exclamation.Play();
             }
+            if (this.Height < 250)
+                this.Size = new Size(250, 250);
         }
         private void FormStkywControlPanelCallInV2_FormClosed(object sender, FormClosedEventArgs e)
         {
