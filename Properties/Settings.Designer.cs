@@ -177,5 +177,17 @@ namespace StkywControlPanelCallInAlarm.Properties {
                 this["settingRequestAidFrom"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool settingUnreadMessage {
+            get {
+                return ((bool)(this["settingUnreadMessage"]));
+            }
+            set {
+                this["settingUnreadMessage"] = value;
+            }
+        }
     }
 }

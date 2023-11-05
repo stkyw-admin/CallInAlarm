@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using StkywControlPanelCallInAlarm.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -139,6 +140,7 @@ namespace StkywControlPanelCallInAlarm
             sizeWidthBeforeAssist = this.Size.Width;
 
             timerOffScreen.Start();
+            textBoxCallInNew.Focus();
         }
         static void UpdateWadLayout(EmployeeCurrentUsage user, string comboChoice)
         {
@@ -432,8 +434,12 @@ namespace StkywControlPanelCallInAlarm
             if (timerFlashing.Enabled == false && timerAssist.Enabled == false)
             {
                 this.BackColor = ColorTranslator.FromHtml("#ffffff");//SystemColors.Control;
-                this.Size = new Size(250, 107);
-            }
+                                                                     //MyCurrentEdit2
+                if (Settings.Default.settingUnreadMessage == false)
+                {
+                    this.Size = new Size(250, 107);
+                }
+            }           
         }
         static async Task performAlertCheck(int companyID, System.Windows.Forms.Label label, EmployeeCurrentUsage user, System.Windows.Forms.Timer timer, System.Windows.Forms.Timer timerAssist)
         {
@@ -519,11 +525,12 @@ namespace StkywControlPanelCallInAlarm
         {
             if (chatOpenCloseStatus == "Closed")
             {
+                Settings.Default.settingUnreadMessage = true;
                 //Stuff that happens when the chat window opens
                 this.Size = new Size(250, 293);
                 panelChat.Visible = true;
                 //if (buttonOpenCloseChat.Text == "Åbn Chat")
-                    //FillComboBoxChatList();
+                //FillComboBoxChatList();
 
                 timerRefreshMessage.Enabled = true;
                 SetTimerRefreshMessageInterval(100);
@@ -540,6 +547,7 @@ namespace StkywControlPanelCallInAlarm
             }
             else
             {
+                Settings.Default.settingUnreadMessage = false;
                 //Stuff that happens when the chat window closes
                 this.Size = new Size(250, 107);
                 panelChat.Visible = false;
@@ -682,8 +690,8 @@ namespace StkywControlPanelCallInAlarm
             int allUsers = -1;
             bool otherChatThread = false;
             bool alleChatThread = false;
-            IEnumerable<ChatMessage> query = chatList.Where(s => s.CompanyID == companyID && s.ToEmployeeID == userId && s.SysRowCreated >= Properties.Settings.Default.settingLastCheckForMessages);
-            IEnumerable<ChatMessage> query2 = chatList.Where(s => s.CompanyID == companyID && s.ToEmployeeID == allUsers && s.SysRowCreated >= Properties.Settings.Default.settingLastCheckForMessages);
+            IEnumerable<ChatMessage> query = chatList.Where(s => s.CompanyID == companyID && s.ToEmployeeID == userId && s.SysRowCreated > Properties.Settings.Default.settingLastCheckForMessages);
+            IEnumerable<ChatMessage> query2 = chatList.Where(s => s.CompanyID == companyID && s.ToEmployeeID == allUsers && s.SysRowCreated > Properties.Settings.Default.settingLastCheckForMessages);
             List<ChatMessage> correctMessages = new List<ChatMessage>();
             IEnumerable<ChatMessage> filter = query.Union(query2);
 
@@ -861,6 +869,8 @@ namespace StkywControlPanelCallInAlarm
                         labelCNSender.Text = "Ny besked fra " + fromUser + ".";
                         textBoxCNMessage.Text = cnOverlayText;
                         panelCNRecipientID = ch.FromEmployeeID;
+
+                        Settings.Default.settingUnreadMessage = true;
 
                         labelCNShowHideMessage.Text = "Vis besked";
                         textBoxCNMessage.Visible = false;
@@ -1371,6 +1381,7 @@ namespace StkywControlPanelCallInAlarm
 
         private void buttonCNDismiss_Click(object sender, EventArgs e)
         {
+            Settings.Default.settingUnreadMessage= false;
             panelChatNotification.Visible = false;
             panelChatNotification.SendToBack();
             this.Size = new Size(250, 107);
@@ -1403,6 +1414,14 @@ namespace StkywControlPanelCallInAlarm
             }
             timerOffScreen.Stop();
             timerOffScreen.Enabled = false;
+        }
+
+        private void buttonCNClose_Click(object sender, EventArgs e)
+        {
+            timerAssistFlashing.Stop();
+            buttonOpenCloseChat.BackColor = System.Drawing.SystemColors.Control;
+            panelChatNotification.Visible = false;
+            panelChatNotification.SendToBack();
         }
     }
 }
