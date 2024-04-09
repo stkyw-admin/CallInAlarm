@@ -58,13 +58,13 @@ namespace StkywControlPanelCallInAlarm
             this.buttonAssistRightAway = new System.Windows.Forms.Button();
             this.timerHelpFlash = new System.Windows.Forms.Timer(this.components);
             this.panelChatNotification = new System.Windows.Forms.Panel();
+            this.buttonCNClose = new System.Windows.Forms.Button();
             this.textBoxCNMessage = new System.Windows.Forms.TextBox();
             this.buttonCNDismiss = new System.Windows.Forms.Button();
             this.textBoxCNReply = new System.Windows.Forms.TextBox();
             this.labelCNShowHideMessage = new System.Windows.Forms.Label();
             this.labelCNSender = new System.Windows.Forms.Label();
             this.timerOffScreen = new System.Windows.Forms.Timer(this.components);
-            this.buttonCNClose = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelChat.SuspendLayout();
             this.panelChatNotification.SuspendLayout();
@@ -320,6 +320,16 @@ namespace StkywControlPanelCallInAlarm
             this.panelChatNotification.TabIndex = 68;
             this.panelChatNotification.Visible = false;
             // 
+            // buttonCNClose
+            // 
+            this.buttonCNClose.Location = new System.Drawing.Point(242, 110);
+            this.buttonCNClose.Name = "buttonCNClose";
+            this.buttonCNClose.Size = new System.Drawing.Size(48, 23);
+            this.buttonCNClose.TabIndex = 6;
+            this.buttonCNClose.Text = "Afslut";
+            this.buttonCNClose.UseVisualStyleBackColor = true;
+            this.buttonCNClose.Click += new System.EventHandler(this.buttonCNClose_Click);
+            // 
             // textBoxCNMessage
             // 
             this.textBoxCNMessage.Location = new System.Drawing.Point(6, 34);
@@ -337,7 +347,7 @@ namespace StkywControlPanelCallInAlarm
             this.buttonCNDismiss.Name = "buttonCNDismiss";
             this.buttonCNDismiss.Size = new System.Drawing.Size(89, 23);
             this.buttonCNDismiss.TabIndex = 4;
-            this.buttonCNDismiss.Text = "Svar senere";
+            this.buttonCNDismiss.Text = "Senere";
             this.buttonCNDismiss.UseVisualStyleBackColor = true;
             this.buttonCNDismiss.Click += new System.EventHandler(this.buttonCNDismiss_Click);
             // 
@@ -375,16 +385,6 @@ namespace StkywControlPanelCallInAlarm
             // 
             this.timerOffScreen.Interval = 1000;
             this.timerOffScreen.Tick += new System.EventHandler(this.timerOffScreen_Tick);
-            // 
-            // buttonCNClose
-            // 
-            this.buttonCNClose.Location = new System.Drawing.Point(242, 110);
-            this.buttonCNClose.Name = "buttonCNClose";
-            this.buttonCNClose.Size = new System.Drawing.Size(48, 23);
-            this.buttonCNClose.TabIndex = 6;
-            this.buttonCNClose.Text = "Afslut";
-            this.buttonCNClose.UseVisualStyleBackColor = true;
-            this.buttonCNClose.Click += new System.EventHandler(this.buttonCNClose_Click);
             // 
             // FormStkywControlPanelCallInV2
             // 
