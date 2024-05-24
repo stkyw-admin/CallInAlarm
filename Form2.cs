@@ -124,6 +124,9 @@ namespace StkywControlPanelCallInAlarm
             else
                 comboBoxWadAlias.SelectedIndex = 0;
 
+            if (comboBoxWadAlias.SelectedItem == null)
+                comboBoxWadAlias.SelectedIndex = 0;
+
             UpdateWadLayout(user, comboBoxWadAlias.SelectedItem.ToString());
 
             chatOpenCloseStatus = "Closed";
