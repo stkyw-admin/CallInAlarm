@@ -45,6 +45,7 @@ namespace StkywControlPanelCallInAlarm
         static List<CallIn> callList = new List<CallIn>();
         static List<LatestRollingWeekSchedule_New> lrwsList = new List<LatestRollingWeekSchedule_New>();
         static List<ChatMessage> chatList = new List<ChatMessage>();
+        static List<UseLog> useLogList = new List<UseLog>();
         static string apiPathSchedule = "http://www.api.sorrytokeepyouwaiting.com/api/schedule/";//"https://localhost:7017/api/schedule/";
         static string apiPathEmployee = "http://www.api.sorrytokeepyouwaiting.com/api/employees/";//"https://localhost:7017/api/employees/";
         static string apiPathEmployeeInCompany = "http://www.api.sorrytokeepyouwaiting.com/api/EmployeesInCompany/";
@@ -54,7 +55,9 @@ namespace StkywControlPanelCallInAlarm
         static string apiPathCallIn = "http://www.api.sorrytokeepyouwaiting.com/api/CallIn/";//"https://localhost:7017/api/CallIn/";
         static string apiPathChatMessage = "http://www.api.sorrytokeepyouwaiting.com/api/ChatMessage/";//"https://localhost:7017/api/ChatMessage";
         static string apiPathChatMessageInCompany = "http://www.api.sorrytokeepyouwaiting.com/api/ChatMessageInCompany/";//"https://localhost:7017/api/ChatMessage";
+        static string apiPathUseLog = "http://www.api.sorrytokeepyouwaiting.com/api/UseLog/";//"https://localhost:7017/api/UseLog/";
         EmployeeCurrentUsage user = new EmployeeCurrentUsage();
+        UseLog useLogEntity = new UseLog();
         Stopwatch sw = new Stopwatch();
         vw_EmployeeLogin helpUser;
         public FormStkywControlPanelCallInV2(int var1, string var2, int var3, string var4, string var5)
@@ -89,7 +92,7 @@ namespace StkywControlPanelCallInAlarm
 
             string dayOfWeek = DateTime.Now.DayOfWeek.ToString();
 
-            PrepareVariables(userId, user);
+            PrepareVariables(userId, user, useLogEntity);
             System.Threading.Thread.Sleep(2000);
 
             //Initialize user //test values:
@@ -154,7 +157,7 @@ namespace StkywControlPanelCallInAlarm
             string finalPath = apiPathEmployee + user.ID;
             UpdateEmployee(user, finalPath);
         }
-        static async Task PrepareVariables(int employeeID, EmployeeCurrentUsage user)
+        static async Task PrepareVariables(int employeeID, EmployeeCurrentUsage user, UseLog useLogEntity)
         {
             ecuList = await GetECUList(apiPathEmployeeInCompany);
 
@@ -162,6 +165,18 @@ namespace StkywControlPanelCallInAlarm
             {
                 if (ecuItem.ID == employeeID)
                     user = ecuItem;
+            }
+
+            //useListID
+            foreach (UseLog useItem in useLogList)
+            {
+                if (useItem.UserID == employeeID)
+                {
+                    useLogEntity.UseLogID = useItem.UseLogID;
+                    useLogEntity.UserID = employeeID;
+                    useLogEntity.CompanyID = useItem.CompanyID;
+                    useLogEntity.LogonTime = useItem.LogonTime;
+                }
             }
         }
         public static int GetIso8601WeekOfYear(DateTime time)
@@ -268,6 +283,20 @@ namespace StkywControlPanelCallInAlarm
                 path, lrws);
             response.EnsureSuccessStatusCode();
         }
+        static async void UpdateUseLog(UseLog useLog, string path)
+        {
+            try
+            {
+                HttpResponseMessage response = await client.PutAsJsonAsync(
+                    path, useLog);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (Exception ex)
+            {
+                string my = ex.Message;
+                my += "";
+            }
+        }
         #endregion
         #region Klasser
         /// <summary>
@@ -363,6 +392,10 @@ namespace StkywControlPanelCallInAlarm
             user.ModifiedDate = DateTime.Now;
             user.Away = true;
             UpdateEmployee(user, apiPathUserFinal);
+
+            string apiPathUseLogFinal = apiPathUseLog + useLogEntity.UseLogID.ToString();
+            useLogEntity.LogoffTime = DateTime.Now;
+            UpdateUseLog(useLogEntity, apiPathUseLogFinal);
 
             System.Windows.Forms.Application.Exit(); Application.Exit();
         }

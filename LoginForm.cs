@@ -27,6 +27,7 @@ namespace StkywControlPanelCallInAlarm
         static string apiPathEcu = "http://www.api.sorrytokeepyouwaiting.com/api/Employees/";//"https://localhost:7017/api/Employees/";
         static string apiPathCompany = "http://www.api.sorrytokeepyouwaiting.com/api/Companies/";//"https://localhost:7017/api/Companies/";
         static string apiPathlogin = "http://www.api.sorrytokeepyouwaiting.com/api/Login/";//"https://localhost:7017/api/Login/";
+        static string apiPathUseLog = "http://www.api.sorrytokeepyouwaiting.com/api/UseLog/";//"https://localhost:7017/api/UseLog/";
         public LoginForm()
         {
             InitializeComponent();
@@ -116,6 +117,7 @@ namespace StkywControlPanelCallInAlarm
                 //main.userId = loginUser.ID;
                 //main.userName = loginUser.Name;
                 //main.companyID = loginCompany.ID;
+                RegisterLogin(loginUser.ID, loginCompany.ID);
                 timerLoginTime.Stop();
                 logForm.Hide();
                 main.Show();
@@ -127,6 +129,15 @@ namespace StkywControlPanelCallInAlarm
             {
                 MessageBox.Show("Dine login-info stemmer ikke overens med databasen.");
             }
+        }
+        static void RegisterLogin(int uID, int cID)
+        {
+            UseLog useLog = new UseLog();
+            useLog.UserID = uID;
+            useLog.CompanyID = cID;
+            useLog.LogonTime = DateTime.Now;
+            useLog.LogoffTime = DateTime.MaxValue;
+            UpdateUseLog(useLog, apiPathUseLog);
         }
         static bool ByteArrayCompare(byte[] a1, byte[] a2)
         {
@@ -161,6 +172,19 @@ namespace StkywControlPanelCallInAlarm
                 return JsonConvert.DeserializeObject<List<Company>>(stringData);
             }
             return null;
+        }
+        static async void UpdateUseLog(UseLog useLog, string path)
+        {
+            try
+            {
+                HttpResponseMessage response = await client.PostAsJsonAsync(path, useLog); //PostAsJsonAsync
+                response.EnsureSuccessStatusCode();
+            }
+            catch (Exception ex)
+            {
+                string my = ex.Message;
+                my += "";
+            }
         }
         public int UserID { get; set; }
         public string UserName { get; set; }
@@ -238,5 +262,13 @@ namespace StkywControlPanelCallInAlarm
         public string CompanyType { get; set; }
         public string CurrentPlan { get; set; }
         public string SubscriptionID { get; set; }
+    }
+    public class UseLog
+    {
+        public Int64 UseLogID { get; set; }
+        public int UserID { get; set; }
+        public int CompanyID { get; set; }
+        public DateTime LogonTime { get; set; }
+        public DateTime LogoffTime { get; set; }
     }
 }
