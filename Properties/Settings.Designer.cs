@@ -189,5 +189,17 @@ namespace StkywControlPanelCallInAlarm.Properties {
                 this["settingUnreadMessage"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool settingUseLog {
+            get {
+                return ((bool)(this["settingUseLog"]));
+            }
+            set {
+                this["settingUseLog"] = value;
+            }
+        }
     }
 }

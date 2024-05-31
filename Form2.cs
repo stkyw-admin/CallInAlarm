@@ -168,14 +168,20 @@ namespace StkywControlPanelCallInAlarm
             }
 
             //useListID
-            foreach (UseLog useItem in useLogList)
+            if (Properties.Settings.Default.settingUseLog == true)
             {
-                if (useItem.UserID == employeeID)
+                IEnumerable<UseLog> query;
+                query = useLogList.Where(s => s.CompanyID == user.CompanyID && s.UserID == user.ID && s.LogonTime >= DateTime.Today);
+                query = query.OrderBy(s => s.LogonTime);
+                foreach (UseLog useItem in query)
                 {
-                    useLogEntity.UseLogID = useItem.UseLogID;
-                    useLogEntity.UserID = employeeID;
-                    useLogEntity.CompanyID = useItem.CompanyID;
-                    useLogEntity.LogonTime = useItem.LogonTime;
+                    if (useItem.UserID == employeeID)
+                    {
+                        useLogEntity.UseLogID = useItem.UseLogID;
+                        useLogEntity.UserID = employeeID;
+                        useLogEntity.CompanyID = useItem.CompanyID;
+                        useLogEntity.LogonTime = useItem.LogonTime;
+                    }
                 }
             }
         }
@@ -393,9 +399,12 @@ namespace StkywControlPanelCallInAlarm
             user.Away = true;
             UpdateEmployee(user, apiPathUserFinal);
 
-            string apiPathUseLogFinal = apiPathUseLog + useLogEntity.UseLogID.ToString();
-            useLogEntity.LogoffTime = DateTime.Now;
-            UpdateUseLog(useLogEntity, apiPathUseLogFinal);
+            if (Properties.Settings.Default.settingUseLog == true)
+            {
+                string apiPathUseLogFinal = apiPathUseLog + useLogEntity.UseLogID.ToString();
+                useLogEntity.LogoffTime = DateTime.Now;
+                UpdateUseLog(useLogEntity, apiPathUseLogFinal);
+            }
 
             System.Windows.Forms.Application.Exit(); Application.Exit();
         }

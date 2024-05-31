@@ -43,6 +43,8 @@ namespace StkywControlPanelCallInAlarm
             this.label5 = new System.Windows.Forms.Label();
             this.textBoxLoginDirections = new System.Windows.Forms.TextBox();
             this.timerLoginTime = new System.Windows.Forms.Timer(this.components);
+            this.checkBoxUseLog = new System.Windows.Forms.CheckBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // label1
@@ -103,11 +105,11 @@ namespace StkywControlPanelCallInAlarm
             // buttonLogin
             // 
             this.buttonLogin.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonLogin.Location = new System.Drawing.Point(15, 207);
+            this.buttonLogin.Location = new System.Drawing.Point(13, 232);
             this.buttonLogin.Margin = new System.Windows.Forms.Padding(4);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(113, 28);
-            this.buttonLogin.TabIndex = 6;
+            this.buttonLogin.TabIndex = 7;
             this.buttonLogin.Text = "Login";
             this.buttonLogin.UseVisualStyleBackColor = true;
             this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
@@ -115,11 +117,11 @@ namespace StkywControlPanelCallInAlarm
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(140, 207);
+            this.buttonCancel.Location = new System.Drawing.Point(138, 232);
             this.buttonCancel.Margin = new System.Windows.Forms.Padding(4);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(113, 28);
-            this.buttonCancel.TabIndex = 7;
+            this.buttonCancel.TabIndex = 8;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -160,13 +162,25 @@ namespace StkywControlPanelCallInAlarm
             this.timerLoginTime.Interval = 20000;
             this.timerLoginTime.Tick += new System.EventHandler(this.timerLoginTime_Tick);
             // 
+            // checkBoxUseLog
+            // 
+            this.checkBoxUseLog.AutoSize = true;
+            this.checkBoxUseLog.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBoxUseLog.Location = new System.Drawing.Point(12, 205);
+            this.checkBoxUseLog.Name = "checkBoxUseLog";
+            this.checkBoxUseLog.Size = new System.Drawing.Size(93, 20);
+            this.checkBoxUseLog.TabIndex = 6;
+            this.checkBoxUseLog.Text = "Log min tid";
+            this.checkBoxUseLog.UseVisualStyleBackColor = true;
+            // 
             // LoginForm
             // 
             this.AcceptButton = this.buttonLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(267, 248);
+            this.ClientSize = new System.Drawing.Size(267, 271);
+            this.Controls.Add(this.checkBoxUseLog);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.textBoxLoginDirections);
             this.Controls.Add(this.checkBoxRememberMe);
@@ -202,5 +216,7 @@ namespace StkywControlPanelCallInAlarm
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBoxLoginDirections;
         private System.Windows.Forms.Timer timerLoginTime;
+        private System.Windows.Forms.CheckBox checkBoxUseLog;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

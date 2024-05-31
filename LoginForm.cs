@@ -38,7 +38,14 @@ namespace StkywControlPanelCallInAlarm
                 textBoxCompany.Text = Properties.Settings.Default.settingCompany;
                 textBoxLoginDirections.Text = Properties.Settings.Default.settingDirections;
                 checkBoxRememberMe.Checked = true;
+                checkBoxUseLog.Checked = Properties.Settings.Default.settingUseLog;
             }
+            label5.Text = "Hvordan finder" + Environment.NewLine + "man dig fra" + Environment.NewLine + "venteområdet?";
+            toolTip1.SetToolTip(checkBoxUseLog, "Grundet den nye EU-forordning om registrering af arbejdstid," + Environment.NewLine
+                                              + "har vi gjort det muligt, at registrere den tid du er aktiv i systemet." + Environment.NewLine
+                                              + "Det kræver blot at du sætter kryds i denne checkbox, så vi har dit" + Environment.NewLine
+                                              + "samtykke til at registrere hvornår du logger ind og hvornår du" + Environment.NewLine
+                                              + "lukker programmet ned igen.");
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)
@@ -58,15 +65,17 @@ namespace StkywControlPanelCallInAlarm
                 Properties.Settings.Default.settingPassword = password;
                 Properties.Settings.Default.settingCompany = company;
                 Properties.Settings.Default.settingDirections = directions;
+                Properties.Settings.Default.settingUseLog = checkBoxUseLog.Checked;
                 Properties.Settings.Default.Save();
             }
-            
-            PerformLogin(sender, e, username, password, company, f, directions, timerLoginTime);
+
+            bool useLogCheck = checkBoxUseLog.Checked;
+            PerformLogin(sender, e, username, password, company, f, directions, timerLoginTime, useLogCheck);
 
             //Test
             //UserID = 8;
         }
-        static async Task PerformLogin(object sender, EventArgs e, string username, string password, string company, Form logForm, string directions, Timer timerLoginTime)
+        static async Task PerformLogin(object sender, EventArgs e, string username, string password, string company, Form logForm, string directions, Timer timerLoginTime, bool useLogCheck)
         {
             allEmployees = await GetEmployeeList(apiPathlogin);
             allCompanies = await GetCompanyList(apiPathCompany);
@@ -117,7 +126,10 @@ namespace StkywControlPanelCallInAlarm
                 //main.userId = loginUser.ID;
                 //main.userName = loginUser.Name;
                 //main.companyID = loginCompany.ID;
-                RegisterLogin(loginUser.ID, loginCompany.ID);
+                if (useLogCheck == true)
+                {
+                    RegisterLogin(loginUser.ID, loginCompany.ID);
+                }
                 timerLoginTime.Stop();
                 logForm.Hide();
                 main.Show();
