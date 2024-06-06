@@ -65,6 +65,10 @@ namespace StkywControlPanelCallInAlarm
             this.labelCNShowHideMessage = new System.Windows.Forms.Label();
             this.labelCNSender = new System.Windows.Forms.Label();
             this.timerOffScreen = new System.Windows.Forms.Timer(this.components);
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tilføjTidsregistreringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.seTidsregistreringerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelChat.SuspendLayout();
             this.panelChatNotification.SuspendLayout();
@@ -314,6 +318,7 @@ namespace StkywControlPanelCallInAlarm
             this.panelChatNotification.Controls.Add(this.textBoxCNReply);
             this.panelChatNotification.Controls.Add(this.labelCNShowHideMessage);
             this.panelChatNotification.Controls.Add(this.labelCNSender);
+            this.panelChatNotification.Controls.Add(this.menuStrip1);
             this.panelChatNotification.Location = new System.Drawing.Point(-4, 1);
             this.panelChatNotification.Name = "panelChatNotification";
             this.panelChatNotification.Size = new System.Drawing.Size(325, 154);
@@ -386,6 +391,42 @@ namespace StkywControlPanelCallInAlarm
             this.timerOffScreen.Interval = 1000;
             this.timerOffScreen.Tick += new System.EventHandler(this.timerOffScreen_Tick);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+                                                this.toolStripMenuItem1});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 416);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(351, 28);
+            this.menuStrip1.TabIndex = 68;
+            this.menuStrip1.Text = "Flere funktioner";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+                                                                this.tilføjTidsregistreringToolStripMenuItem,
+                                                                this.seTidsregistreringerToolStripMenuItem});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(58, 24);
+            this.toolStripMenuItem1.Text = "Flere funktioner";
+            // 
+            // tilføjTidsregistreringToolStripMenuItem
+            // 
+            this.tilføjTidsregistreringToolStripMenuItem.Name = "tilføjTidsregistreringToolStripMenuItem";
+            this.tilføjTidsregistreringToolStripMenuItem.Size = new System.Drawing.Size(230, 26);
+            this.tilføjTidsregistreringToolStripMenuItem.Text = "Tilføj tidsregistrering";
+            this.tilføjTidsregistreringToolStripMenuItem.Click += new System.EventHandler(this.tilføjTidsregistreringToolStripMenuItem_Click);
+            // 
+            // seTidsregistreringerToolStripMenuItem
+            // 
+            this.seTidsregistreringerToolStripMenuItem.Name = "seTidsregistreringerToolStripMenuItem";
+            this.seTidsregistreringerToolStripMenuItem.Size = new System.Drawing.Size(230, 26);
+            this.seTidsregistreringerToolStripMenuItem.Text = "Se tidsregistreringer";
+            this.seTidsregistreringerToolStripMenuItem.Click += new System.EventHandler(this.seTidsregistreringerToolStripMenuItem_Click);
+
+            // 
             // FormStkywControlPanelCallInV2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -405,9 +446,11 @@ namespace StkywControlPanelCallInAlarm
             this.Controls.Add(this.textBoxCallInNew);
             this.Controls.Add(this.buttonCallInText);
             this.Controls.Add(this.labelAlertOther);
+            this.Controls.Add(this.menuStrip1);
             this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::StkywControlPanelCallInAlarm.Properties.Settings.Default, "Location", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Location = global::StkywControlPanelCallInAlarm.Properties.Settings.Default.Location;
+            this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormStkywControlPanelCallInV2";
             this.Text = "STKYW Control Panel";
@@ -419,6 +462,8 @@ namespace StkywControlPanelCallInAlarm
             this.panelChat.PerformLayout();
             this.panelChatNotification.ResumeLayout(false);
             this.panelChatNotification.PerformLayout();
+            this.menuStrip1.ResumeLayout(false); //MENU
+            this.menuStrip1.PerformLayout(); //MENU
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -457,5 +502,9 @@ namespace StkywControlPanelCallInAlarm
         private System.Windows.Forms.Label labelCNSender;
         private System.Windows.Forms.Timer timerOffScreen;
         private System.Windows.Forms.Button buttonCNClose;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem tilføjTidsregistreringToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem seTidsregistreringerToolStripMenuItem;
     }
 }

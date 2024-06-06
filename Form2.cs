@@ -484,7 +484,7 @@ namespace StkywControlPanelCallInAlarm
                 {
                     this.Size = new Size(250, 107);
                 }
-            }           
+            }
         }
         static async Task performAlertCheck(int companyID, System.Windows.Forms.Label label, EmployeeCurrentUsage user, System.Windows.Forms.Timer timer, System.Windows.Forms.Timer timerAssist)
         {
@@ -572,7 +572,7 @@ namespace StkywControlPanelCallInAlarm
             {
                 Settings.Default.settingUnreadMessage = true;
                 //Stuff that happens when the chat window opens
-                this.Size = new Size(250, 293);
+                this.Size = new Size(250, 308);
                 panelChat.Visible = true;
                 //if (buttonOpenCloseChat.Text == "Åbn Chat")
                 //FillComboBoxChatList();
@@ -589,6 +589,8 @@ namespace StkywControlPanelCallInAlarm
                 timerAssistFlashing.Stop();
                 textBoxMainChatWindow.SelectionStart = textBoxMainChatWindow.TextLength;
                 textBoxMainChatWindow.ScrollToCaret();
+
+                menuStrip1.Visible = false;
             }
             else
             {
@@ -606,6 +608,8 @@ namespace StkywControlPanelCallInAlarm
 
                 chatOpenCloseStatus = "Closed";
                 Properties.Settings.Default.settingLastCheckForMessages = System.DateTime.Now;
+                
+                menuStrip1.Visible = true;
             }
         }
         private void buttonSendChat_Click(object sender, EventArgs e)
@@ -929,6 +933,7 @@ namespace StkywControlPanelCallInAlarm
                 textBoxMainChatWindow.Text = "";
                 textBoxMainChatWindow.Text = chatBoxStringBuilder;
             }
+
             Properties.Settings.Default.settingLastCheckForMessages = System.DateTime.Now;
         }
         private void comboBoxChatUsersList_SelectedIndexChanged(object sender, EventArgs e)
@@ -970,7 +975,7 @@ namespace StkywControlPanelCallInAlarm
             }
             if (chatOpenCloseStatus == "Open" && check == true)
             {
-                buttonOpenCloseChat.Text = "Chat";
+                buttonOpenCloseChat.Text = "Udvid";
                 timerAssistFlashing.Stop();
             }
             comboBoxChatUsersList.SelectedIndexChanged += comboBoxChatUsersList_SelectedIndexChanged;
@@ -1426,7 +1431,7 @@ namespace StkywControlPanelCallInAlarm
 
         private void buttonCNDismiss_Click(object sender, EventArgs e)
         {
-            Settings.Default.settingUnreadMessage= false;
+            Settings.Default.settingUnreadMessage = false;
             panelChatNotification.Visible = false;
             panelChatNotification.SendToBack();
             this.Size = new Size(250, 107);
@@ -1467,6 +1472,17 @@ namespace StkywControlPanelCallInAlarm
             buttonOpenCloseChat.BackColor = System.Drawing.SystemColors.Control;
             panelChatNotification.Visible = false;
             panelChatNotification.SendToBack();
+        }
+        private void tilføjTidsregistreringToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RegisterMissingWork rmwForm = new RegisterMissingWork(userId, companyID);
+            rmwForm.Show();
+        }
+
+        private void seTidsregistreringerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowUseLog sulForm = new ShowUseLog(userId, companyID);
+            sulForm.Show();
         }
     }
 }
