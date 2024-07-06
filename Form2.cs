@@ -399,6 +399,17 @@ namespace StkywControlPanelCallInAlarm
             user.Away = true;
             UpdateEmployee(user, apiPathUserFinal);
 
+            //Remove the RequestedAid marking
+            EmployeeCurrentUsage ecu = new EmployeeCurrentUsage();
+            ecu.ID = userId;
+            ecu.CompanyID = companyID;
+            ecu.DelayInMinutes = 0;
+            ecu.Alarm = false;
+            ecu.Away = false;
+            ecu.RequestedAidFrom = 0;
+            ecu.ModifiedDate = DateTime.Now;
+            UpdateEmployee(ecu, apiPathUserFinal);
+
             if (Properties.Settings.Default.settingUseLog == true)
             {
                 string apiPathUseLogFinal = apiPathUseLog + useLogEntity.UseLogID.ToString();

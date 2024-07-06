@@ -64,14 +64,15 @@ namespace StkywControlPanelCallInAlarm
             this.textBoxCNReply = new System.Windows.Forms.TextBox();
             this.labelCNShowHideMessage = new System.Windows.Forms.Label();
             this.labelCNSender = new System.Windows.Forms.Label();
-            this.timerOffScreen = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tilføjTidsregistreringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.seTidsregistreringerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.timerOffScreen = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelChat.SuspendLayout();
             this.panelChatNotification.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // timerFlashing
@@ -89,7 +90,7 @@ namespace StkywControlPanelCallInAlarm
             this.labelAlertOther.Location = new System.Drawing.Point(0, 0);
             this.labelAlertOther.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelAlertOther.Name = "labelAlertOther";
-            this.labelAlertOther.Size = new System.Drawing.Size(1, 313);
+            this.labelAlertOther.Size = new System.Drawing.Size(1, 283);
             this.labelAlertOther.TabIndex = 46;
             this.labelAlertOther.Text = "labelAlertOther";
             this.labelAlertOther.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -318,7 +319,6 @@ namespace StkywControlPanelCallInAlarm
             this.panelChatNotification.Controls.Add(this.textBoxCNReply);
             this.panelChatNotification.Controls.Add(this.labelCNShowHideMessage);
             this.panelChatNotification.Controls.Add(this.labelCNSender);
-            this.panelChatNotification.Controls.Add(this.menuStrip1);
             this.panelChatNotification.Location = new System.Drawing.Point(-4, 1);
             this.panelChatNotification.Name = "panelChatNotification";
             this.panelChatNotification.Size = new System.Drawing.Size(325, 154);
@@ -386,30 +386,25 @@ namespace StkywControlPanelCallInAlarm
             this.labelCNSender.TabIndex = 0;
             this.labelCNSender.Text = "Ny besked fra: ";
             // 
-            // timerOffScreen
-            // 
-            this.timerOffScreen.Interval = 1000;
-            this.timerOffScreen.Tick += new System.EventHandler(this.timerOffScreen_Tick);
-            // 
             // menuStrip1
             // 
             this.menuStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                                                this.toolStripMenuItem1});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 416);
+            this.toolStripMenuItem1});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 283);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(351, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(312, 30);
             this.menuStrip1.TabIndex = 68;
             this.menuStrip1.Text = "Flere funktioner";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                                                                this.tilføjTidsregistreringToolStripMenuItem,
-                                                                this.seTidsregistreringerToolStripMenuItem});
+            this.tilføjTidsregistreringToolStripMenuItem,
+            this.seTidsregistreringerToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(58, 24);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(126, 26);
             this.toolStripMenuItem1.Text = "Flere funktioner";
             // 
             // tilføjTidsregistreringToolStripMenuItem
@@ -425,7 +420,11 @@ namespace StkywControlPanelCallInAlarm
             this.seTidsregistreringerToolStripMenuItem.Size = new System.Drawing.Size(230, 26);
             this.seTidsregistreringerToolStripMenuItem.Text = "Se tidsregistreringer";
             this.seTidsregistreringerToolStripMenuItem.Click += new System.EventHandler(this.seTidsregistreringerToolStripMenuItem_Click);
-
+            // 
+            // timerOffScreen
+            // 
+            this.timerOffScreen.Interval = 1000;
+            this.timerOffScreen.Tick += new System.EventHandler(this.timerOffScreen_Tick);
             // 
             // FormStkywControlPanelCallInV2
             // 
@@ -462,8 +461,8 @@ namespace StkywControlPanelCallInAlarm
             this.panelChat.PerformLayout();
             this.panelChatNotification.ResumeLayout(false);
             this.panelChatNotification.PerformLayout();
-            this.menuStrip1.ResumeLayout(false); //MENU
-            this.menuStrip1.PerformLayout(); //MENU
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
