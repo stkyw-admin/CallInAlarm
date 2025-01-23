@@ -417,6 +417,18 @@ namespace StkywControlPanelCallInAlarm
                 UpdateUseLog(useLogEntity, apiPathUseLogFinal);
             }
 
+            // Only save the location if the window is not minimized
+            if (this.WindowState != FormWindowState.Minimized)
+            {
+                Properties.Settings.Default.Location = this.Location;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.Location = RestoreBounds.Location;
+                Properties.Settings.Default.Save();
+            }
+
             System.Windows.Forms.Application.Exit(); Application.Exit();
         }
         private void buttonCallInText_Click(object sender, EventArgs e)
@@ -451,7 +463,10 @@ namespace StkywControlPanelCallInAlarm
         private void textBoxCallInNew_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
+            {
                 buttonCallInText.PerformClick();
+                Properties.Settings.Default.Save();
+            }
         }
         private void pictureBox1_Click(object sender, EventArgs e)
         {
